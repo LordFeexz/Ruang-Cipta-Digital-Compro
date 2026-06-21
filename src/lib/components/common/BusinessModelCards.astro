@@ -1,0 +1,39 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import GlowCard from "./GlowCard.astro";
+import type { BusinessModelCard } from "../../../content/types";
+import Briefcase from "@lucide/svelte/icons/briefcase";
+import { cn } from "../../../lib/utils";
+
+interface Props {
+  models: BusinessModelCard[];
+}
+
+const { models } = Astro.props;
+---
+
+<SectionWrapper>
+  <div class="max-w-3xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+      Business Model
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {
+      models.map((model, index) => (
+        <GlowCard
+          class={cn(
+            `delay-[${index * 100}ms]`,
+            "text-center flex flex-col items-center justify-center min-h-[200px]",
+          )}
+        >
+          <div class="h-16 w-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
+            <Briefcase class="h-8 w-8 text-brand-primary" />
+          </div>
+          <h3 class="text-xl font-bold">{model.title}</h3>
+        </GlowCard>
+      ))
+    }
+  </div>
+</SectionWrapper>

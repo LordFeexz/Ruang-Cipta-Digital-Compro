@@ -1,0 +1,53 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import GlowCard from "./GlowCard.astro";
+import type { MissionCard } from "../../../content/types";
+import Unlock from "@lucide/svelte/icons/unlock";
+import Zap from "@lucide/svelte/icons/zap";
+import Lightbulb from "@lucide/svelte/icons/lightbulb";
+import Leaf from "@lucide/svelte/icons/leaf";
+import { cn } from "../../../lib/utils";
+
+interface Props {
+  missions: MissionCard[];
+}
+
+const { missions } = Astro.props;
+
+// Map icon names to Lucide components
+const getIcon = (name: string) => {
+  switch (name) {
+    case "Unlock":
+      return Unlock;
+    case "Zap":
+      return Zap;
+    case "Lightbulb":
+      return Lightbulb;
+    case "Leaf":
+      return Leaf;
+    default:
+      return Lightbulb;
+  }
+};
+---
+
+<SectionWrapper>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {
+      missions.map((mission, index) => {
+        const Icon = getIcon(mission.icon);
+        return (
+          <GlowCard
+            class={cn(`delay-[${index * 100}ms]`)}
+          >
+            <div class="h-12 w-12 rounded-lg bg-brand-primary/20 flex items-center justify-center mb-6 text-brand-primary">
+              <Icon class="h-6 w-6" />
+            </div>
+            <h3 class="text-xl font-bold mb-3">{mission.title}</h3>
+            <p class="text-muted-foreground">{mission.description}</p>
+          </GlowCard>
+        );
+      })
+    }
+  </div>
+</SectionWrapper>

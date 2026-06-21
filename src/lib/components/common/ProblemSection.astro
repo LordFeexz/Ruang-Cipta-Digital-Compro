@@ -1,0 +1,36 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import type { PitchContent } from "../../../content/types";
+import AlertCircle from "@lucide/svelte/icons/alert-circle";
+import { cn } from "../../../lib/utils";
+
+interface Props {
+  content: PitchContent;
+}
+
+const { content } = Astro.props;
+---
+
+<SectionWrapper class="bg-destructive/5">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+    <div class="order-2 md:order-1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {content.description.slice(1).map((item, index) => (
+          <div class="p-6 rounded-2xl bg-background border border-destructive/20 shadow-lg" data-aos="fade-left" data-aos-delay={index * 150}>
+            <AlertCircle class="h-8 w-8 text-destructive mb-4" />
+            <p class="font-medium text-lg">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="order-1 md:order-2">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 text-destructive">
+        {content.title}
+      </h2>
+      <p class="text-xl text-muted-foreground">
+        {content.description[0]}
+      </p>
+    </div>
+  </div>
+</SectionWrapper>

@@ -1,0 +1,17 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+
+interface Props {
+  vision: string;
+}
+
+const { vision } = Astro.props;
+---
+
+<SectionWrapper class="bg-card">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-gradient">
+      "{vision}"
+    </h2>
+  </div>
+</SectionWrapper>

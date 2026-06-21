@@ -1,0 +1,177 @@
+---
+import { ModeWatcher } from "mode-watcher";
+import type { PageProps } from "../lib/interfaces/component";
+import { DEFAULT_LANG } from "../lib/i18n";
+import "../styles/global.css";
+import "aos/dist/aos.css";
+import Navbar from "../lib/components/layouts/Navbar.astro";
+import Footer from "../lib/components/layouts/Footer.astro";
+import logoImg from "../assets/logo.png";
+import icon192 from "../assets/logo.png";
+import icon512 from "../assets/logo.png";
+
+interface Props extends PageProps {}
+
+const {
+  lang = DEFAULT_LANG,
+  title,
+  robots,
+  keywords = [],
+  opengraph,
+  twitter,
+  description,
+  schemas = [],
+} = Astro.props;
+
+const baseUrl = import.meta.env.PUBLIC_DOMAIN || "http://localhost:4321";
+const ogImage = opengraph?.image || `${baseUrl}${logoImg.src}`;
+---
+
+<script is:inline>
+  const isBrowser = typeof localStorage !== "undefined";
+  const getThemePreference = () => {
+    if (isBrowser && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+  const isDark = getThemePreference() === "dark";
+  document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+
+  if (isBrowser) {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+</script>
+
+<html lang={lang} translate="no" class="notranslate scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href={logoImg.src} />
+    <meta name="generator" content={Astro.generator} />
+    <script>
+      // Polyfills — processed by Vite/Astro bundler, client-side only.
+      // core-js is tree-shaken: only APIs actually missing in the target browser are loaded.
+      import "../polyfills";
+      import AOS from "aos";
+      
+      // Initialize AOS when the DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        AOS.init({
+          duration: 800,
+          once: true,
+          offset: 50,
+        });
+      });
+    </script>
+
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Ruang Cipta Digital" />
+    <link rel="icon" href={icon192.src} />
+    <link rel="apple-touch-icon" href={icon512.src} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#120c1f" />
+
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    {opengraph?.title && <meta property="og:title" content={opengraph.title} />}
+    {
+      opengraph?.description && (
+        <meta property="og:description" content={opengraph.description} />
+      )
+    }
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={`${baseUrl}${Astro.url.pathname}`} />
+    {opengraph?.type && <meta property="og:type" content={opengraph.type} />}
+    {
+      opengraph?.tags && (
+        <meta property="og:tags" content={opengraph.tags.join(", ")} />
+      )
+    }
+    <meta property="og:locale" content={lang} />
+    <meta property="og:site_name" content="Ruang Cipta Digital" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta
+      name="twitter:card"
+      content={twitter?.card || "summary_large_image"}
+    />
+    <meta name="twitter:title" content={twitter?.title || title} />
+    {
+      description && (
+        <meta
+          name="twitter:description"
+          content={twitter?.description || description}
+        />
+      )
+    }
+    <meta name="twitter:image" content={twitter?.image || ogImage} />
+    <meta name="twitter:site" content="Ruang Cipta Digital" />
+
+    <link rel="canonical" href={`${baseUrl}${Astro.url.pathname}`} />
+    <link rel="alternate" hreflang="id" href={`${baseUrl}/id`} />
+    <link rel="alternate" hreflang="en" href={`${baseUrl}/en`} />
+
+    {
+      robots && (
+        <meta
+          name="robots"
+          content={`${robots.index ? "index" : "noindex"}, ${robots.follow ? "follow" : "nofollow"}`}
+        />
+      )
+    }
+
+    {
+      keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(", ")} />
+      )
+    }
+
+    {
+      schemas.map((schema) => (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(schema, null, 4)}
+        />
+      ))
+    }
+  </head>
+  <body
+    class="text-foreground antialiased scroll-smooth min-h-svh bg-background flex flex-col relative overflow-x-hidden pt-20"
+  >
+    <ModeWatcher client:load />
+
+    <Navbar lang={lang} />
+
+    <main id="main-content" class="grow">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

@@ -1,0 +1,57 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import GlowCard from "./GlowCard.astro";
+import type { ComparisonRow } from "../../../content/types";
+import CheckCircle2 from "@lucide/svelte/icons/check-circle-2";
+import XCircle from "@lucide/svelte/icons/x-circle";
+
+interface Props {
+  data: ComparisonRow[];
+}
+
+const { data } = Astro.props;
+---
+
+<SectionWrapper>
+  <div class="max-w-3xl mx-auto text-center mb-16">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Competitive Advantage</h2>
+    <p class="text-xl text-muted-foreground">How we stack up against traditional solutions.</p>
+  </div>
+
+  <GlowCard class="max-w-4xl mx-auto p-0 overflow-hidden bg-background">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-card">
+            <th class="p-6 font-semibold text-lg text-muted-foreground border-b border-white/10 w-1/3">Feature</th>
+            <th class="p-6 font-bold text-xl text-brand-primary border-b border-white/10 w-1/3">Our Product</th>
+            <th class="p-6 font-semibold text-lg text-muted-foreground border-b border-white/10 w-1/3">Traditional</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row) => (
+            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <td class="p-6 font-medium text-lg">{row.feature}</td>
+              <td class="p-6">
+                <div class="flex items-center gap-3">
+                  <CheckCircle2 class="h-6 w-6 text-green-500" />
+                  <span class="font-semibold text-foreground">{row.product}</span>
+                </div>
+              </td>
+              <td class="p-6">
+                <div class="flex items-center gap-3 opacity-60">
+                  {row.traditional === "No" || row.traditional === "Tidak" ? (
+                    <XCircle class="h-6 w-6 text-destructive" />
+                  ) : (
+                    <CheckCircle2 class="h-6 w-6 text-muted-foreground" />
+                  )}
+                  <span>{row.traditional}</span>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </GlowCard>
+</SectionWrapper>

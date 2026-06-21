@@ -1,0 +1,59 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import type { PitchContent } from "../../../content/types";
+import TrendingUp from "@lucide/svelte/icons/trending-up";
+import PieChart from "@lucide/svelte/icons/pie-chart";
+import BarChart3 from "@lucide/svelte/icons/bar-chart-3";
+
+interface Props {
+  content: PitchContent;
+}
+
+const { content } = Astro.props;
+---
+
+<SectionWrapper>
+  <div class="max-w-3xl mx-auto text-center mb-16">
+    <h2
+      class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 text-brand-primary"
+    >
+      {content.title}
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+    <!-- Visual Data Blocks -->
+    <div
+      class="p-8 rounded-3xl bg-card border border-white/5 flex flex-col items-center justify-center text-center" data-aos="fade-up"
+    >
+      <div
+        class="h-16 w-16 rounded-full bg-blue-500/20 flex items-center justify-center mb-6 text-blue-400"
+      >
+        <TrendingUp class="h-8 w-8" />
+      </div>
+      <h3 class="text-xl font-bold mb-3">{content.description[0]}</h3>
+    </div>
+
+    <div
+      class="p-8 rounded-3xl bg-card border border-white/5 flex flex-col items-center justify-center text-center" data-aos="fade-up" data-aos-delay="100"
+    >
+      <div
+        class="h-16 w-16 rounded-full bg-purple-500/20 flex items-center justify-center mb-6 text-purple-400"
+      >
+        <BarChart3 class="h-8 w-8" />
+      </div>
+      <h3 class="text-xl font-bold mb-3">{content.description[1]}</h3>
+    </div>
+
+    <div
+      class="p-8 rounded-3xl bg-card border border-white/5 flex flex-col items-center justify-center text-center" data-aos="fade-up" data-aos-delay="200"
+    >
+      <div
+        class="h-16 w-16 rounded-full bg-brand-secondary/20 flex items-center justify-center mb-6 text-brand-secondary"
+      >
+        <PieChart class="h-8 w-8" />
+      </div>
+      <h3 class="text-xl font-bold mb-3">{content.description[2]}</h3>
+    </div>
+  </div>
+</SectionWrapper>

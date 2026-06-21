@@ -1,0 +1,39 @@
+---
+import { Button } from "../ui/button";
+import AnimatedGradient from "./AnimatedGradient.svelte";
+import type { HeroContent } from "../../../content/types";
+
+interface Props {
+  content: HeroContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="relative min-h-[90vh] flex flex-col justify-center items-center text-center overflow-hidden py-20 sm:py-32 px-4 sm:px-6">
+  <AnimatedGradient client:load />
+  
+  <div class="container mx-auto max-w-5xl relative z-10" data-aos="zoom-in" data-aos-duration="1000">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter mb-6 leading-tight">
+      {content.headline}
+    </h1>
+    
+    <p class="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 font-medium leading-relaxed">
+      {content.subheadline}
+    </p>
+    
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <Button size="lg" class="w-full sm:w-auto text-base h-14 px-8 rounded-full bg-brand-gradient hover:opacity-90 text-white shadow-xl shadow-brand-primary/20 transition-all hover:scale-105">
+        {content.cta1}
+      </Button>
+      <Button size="lg" variant="outline" class="w-full sm:w-auto text-base h-14 px-8 rounded-full border-white/20 bg-background/50 backdrop-blur-md hover:bg-white/10 transition-all hover:scale-105">
+        {content.cta2}
+      </Button>
+    </div>
+  </div>
+  
+  <!-- Additional slot for optional metrics (used in Career Mate / DigiTool) -->
+  <div class="mt-20 w-full" data-aos="fade-up" data-aos-delay="300">
+    <slot />
+  </div>
+</section>

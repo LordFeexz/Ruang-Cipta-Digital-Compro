@@ -1,0 +1,26 @@
+---
+import { getContent } from "../../../content";
+import { DEFAULT_LANG } from "../../../lib/i18n";
+import logoImg from "../../../assets/logo.png";
+
+interface Props {
+  lang?: string;
+}
+
+const { lang = DEFAULT_LANG } = Astro.props;
+const content = getContent(lang);
+---
+
+<footer class="border-t border-white/5 py-12 bg-background relative overflow-hidden">
+  <div class="absolute inset-0 bg-brand-primary/5 opacity-50"></div>
+  <div class="container mx-auto px-4 sm:px-6 relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="flex items-center gap-3">
+      <img src={logoImg.src} alt="Ruang Cipta Digital" class="h-6 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" />
+      <span class="font-medium text-sm text-muted-foreground tracking-tight">Ruang Cipta Digital</span>
+    </div>
+    
+    <div class="text-sm text-muted-foreground">
+      {content.footer.copyright}
+    </div>
+  </div>
+</footer>

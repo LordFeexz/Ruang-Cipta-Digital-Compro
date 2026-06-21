@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { LANGS, LANG } from "../../../lib/i18n";
+import { getContent } from "../../../content";
+import TransactionFinishPage from "../../../lib/components/transaction/TransactionFinishPage.svelte";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+export const prerender = true;
+
+const { lang } = Astro.params as { lang: LANG };
+const content = getContent(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={content.transactionFinish.pageTitle}
+  robots={{ index: false, follow: false }}
+>
+  <TransactionFinishPage client:only="svelte" content={content.transactionFinish} lang={lang} />
+</BaseLayout>

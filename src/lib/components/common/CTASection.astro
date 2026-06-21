@@ -1,0 +1,66 @@
+---
+import SectionWrapper from "./SectionWrapper.astro";
+import { Button } from "../ui/button";
+import type { CTASectionContent } from "../../../content/types";
+
+interface Props {
+  content: CTASectionContent;
+  primaryLink?: string;
+  secondaryLink?: string;
+}
+
+const {
+  content,
+  primaryLink = `mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`,
+  secondaryLink = `mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`,
+} = Astro.props;
+---
+
+<SectionWrapper class="bg-card mt-10 sm:mt-20">
+  <div class="relative rounded-3xl overflow-hidden bg-background border border-white/10 p-6 sm:p-12 md:p-20 text-center max-w-5xl mx-auto group" data-aos="zoom-in" data-aos-delay="100">
+    <!-- Background Glow -->
+    <div
+      class="absolute inset-0 bg-brand-gradient opacity-10 group-hover:opacity-20 transition-opacity duration-700"
+    >
+    </div>
+    <div
+      class="absolute -top-40 -right-40 w-80 h-80 bg-brand-primary/30 rounded-full blur-[100px]"
+    >
+    </div>
+    <div
+      class="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-secondary/30 rounded-full blur-[100px]"
+    >
+    </div>
+
+    <div class="relative z-10">
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-10 text-white"
+      >
+        {content.title}
+      </h2>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <Button
+          href={primaryLink}
+          size="lg"
+          class="w-full sm:w-auto text-lg h-16 px-10 rounded-full bg-brand-gradient hover:opacity-90 text-white shadow-xl shadow-brand-primary/20 transition-transform hover:scale-105"
+        >
+          {content.button1}
+        </Button>
+
+        {
+          content.button2 && (
+            <Button
+              href={secondaryLink}
+              size="lg"
+              variant="outline"
+              class="w-full sm:w-auto text-lg h-16 px-10 rounded-full border-white/20 bg-transparent hover:bg-white/5 transition-transform hover:scale-105"
+            >
+              {content.button2}
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</SectionWrapper>

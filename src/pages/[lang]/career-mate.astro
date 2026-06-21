@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getContent } from "../../content";
+import { LANGS, LANG } from "../../lib/i18n";
+
+import HeroSection from "../../lib/components/common/HeroSection.astro";
+import ProblemSection from "../../lib/components/common/ProblemSection.astro";
+import MarketOpportunity from "../../lib/components/common/MarketOpportunity.astro";
+import TimelineSection from "../../lib/components/common/TimelineSection.svelte";
+import ProductDemo from "../../lib/components/common/ProductDemo.astro";
+import MetricsRow from "../../lib/components/common/MetricsRow.svelte";
+import BusinessModelCards from "../../lib/components/common/BusinessModelCards.astro";
+import ComparisonTable from "../../lib/components/common/ComparisonTable.astro";
+import RoadmapSection from "../../lib/components/common/RoadmapSection.astro";
+import VisionSection from "../../lib/components/common/VisionSection.astro";
+import CTASection from "../../lib/components/common/CTASection.astro";
+import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+export const prerender = true;
+
+const { lang } = Astro.params as { lang: LANG };
+const content = getContent(lang);
+const { careerMate, seo } = content;
+---
+
+<BaseLayout 
+  lang={lang}
+  title={seo.careerMate.title}
+  description={seo.careerMate.description}
+  keywords={seo.careerMate.keywords}
+  opengraph={{
+    title: seo.careerMate.title,
+    description: seo.careerMate.description,
+    type: "website"
+  }}
+>
+  <HeroSection content={careerMate.hero}>
+    <div class="max-w-4xl mx-auto mt-12 bg-card/50 backdrop-blur-md rounded-3xl p-8 border border-white/10">
+      <MetricsRow metrics={careerMate.hero.metrics} client:visible />
+    </div>
+  </HeroSection>
+  
+  <ProblemSection content={careerMate.problem} />
+  
+  <MarketOpportunity content={careerMate.market} />
+  
+  <SectionWrapper class="bg-card/30">
+    <TimelineSection steps={careerMate.solution} client:visible />
+  </SectionWrapper>
+  
+  <ProductDemo demo={careerMate.demo} />
+  
+  <SectionWrapper>
+    <div class="max-w-3xl mx-auto text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Traction</h2>
+    </div>
+    <MetricsRow metrics={careerMate.traction} client:visible />
+  </SectionWrapper>
+  
+  <BusinessModelCards models={careerMate.businessModel} />
+  
+  <ComparisonTable data={careerMate.advantage} />
+  
+  <RoadmapSection roadmap={careerMate.roadmap} />
+  
+  <VisionSection vision={careerMate.futureVision} />
+  
+  <CTASection content={careerMate.cta} primaryLink={import.meta.env.PUBLIC_CAREER_MATE_URL} />
+</BaseLayout>

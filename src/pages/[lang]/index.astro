@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getContent } from "../../content";
+import { LANGS, LANG } from "../../lib/i18n";
+
+import HeroSection from "../../lib/components/common/HeroSection.astro";
+import ProblemSection from "../../lib/components/common/ProblemSection.astro";
+import PitchSection from "../../lib/components/common/PitchSection.astro";
+import VisionSection from "../../lib/components/common/VisionSection.astro";
+import MissionCards from "../../lib/components/common/MissionCards.astro";
+import ProductCard from "../../lib/components/common/ProductCard.astro";
+import MetricsRow from "../../lib/components/common/MetricsRow.svelte";
+import ProductDemo from "../../lib/components/common/ProductDemo.astro";
+import CTASection from "../../lib/components/common/CTASection.astro";
+import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+
+export const prerender = true;
+
+const { lang } = Astro.params as { lang: LANG };
+const content = getContent(lang);
+const { home, seo } = content;
+---
+
+<BaseLayout 
+  lang={lang}
+  title={seo.home.title}
+  description={seo.home.description}
+  keywords={seo.home.keywords}
+  opengraph={{
+    title: seo.home.title,
+    description: seo.home.description,
+    type: "website"
+  }}
+>
+  <HeroSection content={home.hero} />
+  
+  <ProblemSection content={home.problem} />
+  
+  <PitchSection content={home.intro} />
+  
+  <VisionSection vision={home.vision} />
+  
+  <MissionCards missions={home.mission} />
+  
+  <ProductCard products={home.products} />
+  
+  <PitchSection content={home.whyWeExist} align="left" />
+  
+  <SectionWrapper class="bg-card/30">
+    <div class="max-w-3xl mx-auto text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Traction & Scale</h2>
+      <p class="text-xl text-muted-foreground">The impact of our digital ecosystem across the globe.</p>
+    </div>
+    <MetricsRow metrics={home.impact} client:visible />
+  </SectionWrapper>
+  
+  <ProductDemo demo={home.showcase} />
+  
+  <CTASection content={home.contact} />
+</BaseLayout>
