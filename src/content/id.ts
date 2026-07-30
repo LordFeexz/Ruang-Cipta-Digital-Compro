@@ -306,7 +306,8 @@ export const id: SiteContent = {
     },
     productCta: {
       careerMate: "Ke Career Mate",
-      digitool: "Ke DigiTool"
+      digitool: "Ke DigiTool",
+      iorion: "Ke Iorion AI"
     },
     fallbackMessage: "Terima kasih atas transaksi Anda."
   }

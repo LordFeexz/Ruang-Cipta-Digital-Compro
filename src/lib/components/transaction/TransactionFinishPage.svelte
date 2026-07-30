@@ -10,6 +10,8 @@
   const careerMateLink =
     import.meta.env.PUBLIC_CAREER_MATE_URL || "https://apply-mate.site";
   const digitoolLink = import.meta.env.PUBLIC_DIGITOOL_URL || "https://dgtool.my.id";
+  const iorionLink =
+    import.meta.env.PUBLIC_IORION_APP_URL || "https://iorion.my.id";
 </script>
 
 <div
@@ -39,7 +41,7 @@
 
     <!-- Product CTAs -->
     <div
-      class="mt-12 flex w-full max-w-lg flex-col justify-center gap-3 sm:flex-row sm:gap-4"
+      class="mt-12 flex w-full max-w-2xl flex-col justify-center gap-3 sm:flex-row sm:gap-4"
     >
       <Button href={careerMateLink} variant="brand" size="xl" class="flex-1">
         {content.productCta.careerMate}
@@ -51,6 +53,9 @@
         class="flex-1"
       >
         {content.productCta.digitool}
+      </Button>
+      <Button href={iorionLink} variant="brand" size="xl" class="flex-1">
+        {content.productCta.iorion}
       </Button>
     </div>
   </div>

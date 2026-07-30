@@ -11,6 +11,8 @@ interface ImportMetaEnv {
    * runtime `process.env.IORION_URL` and falls back to https://api.iorion.ai.
    */
   readonly PUBLIC_IORION_URL?: string;
+  /** Iorion AI app origin (not the API one above) — used for the finish-screen CTA. */
+  readonly PUBLIC_IORION_APP_URL?: string;
   /** NOTE: not declared in `.env`, so Vite inlines this as `undefined` at build time. */
   readonly PUBLIC_BLOG_PRESS_URL?: string;
 }

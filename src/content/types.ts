@@ -163,7 +163,7 @@ export interface TransactionFinishContent {
   orderInfo: { orderId: string; status: string; product: string; time: string };
   cta: { backToProduct: string; tryAgain: string; checkLater: string; backToHome: string };
   /** Per-product buttons on the finish screen. */
-  productCta: { careerMate: string; digitool: string };
+  productCta: { careerMate: string; digitool: string; iorion: string };
   fallbackMessage: string;
 }
 

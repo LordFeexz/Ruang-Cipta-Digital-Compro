@@ -305,7 +305,8 @@ export const en: SiteContent = {
     },
     productCta: {
       careerMate: "To Career Mate",
-      digitool: "To DigiTool"
+      digitool: "To DigiTool",
+      iorion: "To Iorion AI"
     },
     fallbackMessage: "Thank you for your transaction."
   }
