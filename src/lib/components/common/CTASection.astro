@@ -1,60 +1,76 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
 import { Button } from "../ui/button";
+
 import type { CTASectionContent } from "../../../content/types";
+import { ArrowRight } from "./icons";
 
 interface Props {
   content: CTASectionContent;
   primaryLink?: string;
   secondaryLink?: string;
+  eyebrow?: string;
 }
 
 const {
   content,
+  eyebrow,
   primaryLink = `mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`,
   secondaryLink = `mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`,
 } = Astro.props;
 ---
 
-<SectionWrapper class="bg-card mt-10 sm:mt-20">
-  <div class="relative rounded-3xl overflow-hidden bg-background border border-white/10 p-6 sm:p-12 md:p-20 text-center max-w-5xl mx-auto group" data-aos="zoom-in" data-aos-delay="100">
-    <!-- Background Glow -->
+<SectionWrapper>
+  <div
+    class="border-border bg-card relative mx-auto max-w-4xl overflow-hidden rounded-3xl border px-6 py-16 text-center sm:px-12 sm:py-20"
+    data-aos="fade-up"
+  >
+    <!-- Single soft brand wash, replacing the three stacked glow layers -->
     <div
-      class="absolute inset-0 bg-brand-gradient opacity-10 group-hover:opacity-20 transition-opacity duration-700"
-    >
-    </div>
-    <div
-      class="absolute -top-40 -right-40 w-80 h-80 bg-brand-primary/30 rounded-full blur-[100px]"
-    >
-    </div>
-    <div
-      class="absolute -bottom-40 -left-40 w-80 h-80 bg-brand-secondary/30 rounded-full blur-[100px]"
+      class="bg-brand/10 pointer-events-none absolute -top-32 left-1/2 size-80 -translate-x-1/2 rounded-full blur-[100px]"
+      aria-hidden="true"
     >
     </div>
 
     <div class="relative z-10">
+      {
+        eyebrow && (
+          <span class="eyebrow mb-6 inline-flex items-center gap-3">
+            <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
+            {eyebrow}
+          </span>
+        )
+      }
+
       <h2
-        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-10 text-white"
+        class="font-display text-title text-foreground mx-auto max-w-2xl font-normal"
       >
         {content.title}
       </h2>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+      <div
+        class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+      >
         <Button
           href={primaryLink}
-          size="lg"
-          class="w-full sm:w-auto text-lg h-16 px-10 rounded-full bg-brand-gradient hover:opacity-90 text-white shadow-xl shadow-brand-primary/20 transition-transform hover:scale-105"
+          variant="brand"
+          size="xl"
+          class="group w-full sm:w-auto"
         >
           {content.button1}
+          <ArrowRight
+            class="size-4 transition-transform group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </Button>
 
         {
           content.button2 && (
             <Button
               href={secondaryLink}
-              size="lg"
-              variant="outline"
-              class="w-full sm:w-auto text-lg h-16 px-10 rounded-full border-white/20 bg-transparent hover:bg-white/5 transition-transform hover:scale-105"
+              variant="brandGhost"
+              size="xl"
+              class="w-full sm:w-auto"
             >
               {content.button2}
             </Button>

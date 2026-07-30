@@ -1,7 +1,38 @@
-<div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-  <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-brand-primary/20 blur-[120px] animate-glow-pulse mix-blend-screen"></div>
-  <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-brand-secondary/20 blur-[120px] animate-glow-pulse mix-blend-screen" style="animation-delay: 1.5s;"></div>
-  
-  <!-- Grid overlay -->
-  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiLz48L3N2Zz4=')] opacity-50 mask-image:linear-gradient(to_bottom,white,transparent)"></div>
+<!--
+  Ambient background wash.
+
+  Opacity and blend mode come from theme tokens (--ambient-opacity /
+  --ambient-blend) because `mix-blend-screen` only works on a dark canvas — on
+  white it flattens the blobs into nothing. The dot grid is a CSS radial-gradient
+  built from `currentColor` rather than a base64 SVG of white dots, so it is
+  visible in both themes.
+-->
+<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+  <div class="ambient absolute inset-0">
+    <div
+      class="bg-brand/30 animate-drift absolute top-[-25%] left-[-15%] size-[55%] rounded-full blur-[130px]"
+    ></div>
+    <div
+      class="bg-brand/20 animate-drift absolute right-[-15%] bottom-[-25%] size-[55%] rounded-full blur-[130px]"
+      style="animation-delay: -11s;"
+    ></div>
+  </div>
+
+  <!-- Dot grid, fading out toward the bottom -->
+  <div class="dots text-foreground absolute inset-0"></div>
 </div>
+
+<style>
+  .ambient {
+    opacity: var(--ambient-opacity);
+    mix-blend-mode: var(--ambient-blend);
+  }
+
+  .dots {
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.06;
+    mask-image: linear-gradient(to bottom, black, transparent 75%);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 75%);
+  }
+</style>

@@ -19,5 +19,8 @@ const content = getContent(lang);
   title={content.transactionFinish.pageTitle}
   robots={{ index: false, follow: false }}
 >
-  <TransactionFinishPage client:only="svelte" content={content.transactionFinish} lang={lang} />
+  <TransactionFinishPage
+    client:only="svelte"
+    content={content.transactionFinish}
+  />
 </BaseLayout>

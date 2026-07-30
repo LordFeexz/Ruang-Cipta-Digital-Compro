@@ -4,6 +4,41 @@ export interface NavContent {
   digiTool: string;
   about: string;
   contact: string;
+  /** Accessible labels for the chrome controls. */
+  themeLight: string;
+  themeDark: string;
+  language: string;
+  skipToContent: string;
+  openMenu: string;
+  closeMenu: string;
+  home: string;
+}
+
+/**
+ * Labels shared across section components. These were previously hardcoded in
+ * English inside the components, so they rendered untranslated on the /id site.
+ */
+export interface UiLabels {
+  ourMission: string;
+  whatWeBuild: string;
+  ecosystemProduct: string;
+  theChallenge: string;
+  marketOpportunity: string;
+  howItWorks: string;
+  step: string;
+  productShowcase: string;
+  traction: string;
+  tractionAndScale: string;
+  tractionLede: string;
+  businessModel: string;
+  productRoadmap: string;
+  competitiveAdvantage: string;
+  competitiveAdvantageLede: string;
+  tableFeature: string;
+  tableOurProduct: string;
+  tableTraditional: string;
+  ourVision: string;
+  getStarted: string;
 }
 
 export interface HeroContent {
@@ -127,11 +162,14 @@ export interface TransactionFinishContent {
   description: { success: string; pending: string; failed: string };
   orderInfo: { orderId: string; status: string; product: string; time: string };
   cta: { backToProduct: string; tryAgain: string; checkLater: string; backToHome: string };
+  /** Per-product buttons on the finish screen. */
+  productCta: { careerMate: string; digitool: string };
   fallbackMessage: string;
 }
 
 export interface SiteContent {
   nav: NavContent;
+  ui: UiLabels;
   home: HomeContent;
   careerMate: CareerMateContent;
   digitool: DigiToolContent;

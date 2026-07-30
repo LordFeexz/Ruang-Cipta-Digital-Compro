@@ -1,0 +1,61 @@
+---
+import { cn } from "../../../lib/utils";
+
+interface Props {
+  /** Small uppercase label above the title. */
+  eyebrow?: string;
+  title: string;
+  /** Supporting paragraph below the title. */
+  lede?: string;
+  align?: "center" | "left";
+  as?: "h1" | "h2" | "h3";
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lede,
+  align = "center",
+  as: Tag = "h2",
+  class: className = "",
+} = Astro.props as Props;
+
+const centered = align === "center";
+---
+
+<div
+  class={cn(
+    "flex flex-col",
+    centered ? "items-center text-center mx-auto max-w-3xl" : "items-start text-left",
+    className,
+  )}
+>
+  {
+    eyebrow && (
+      <span class="eyebrow mb-4 flex items-center gap-3">
+        <span class="bg-brand/60 h-px w-6" aria-hidden="true"></span>
+        {eyebrow}
+      </span>
+    )
+  }
+
+  <Tag class="font-display text-title text-foreground font-normal">
+    {title}
+  </Tag>
+
+  {
+    lede && (
+      <p
+        class={cn(
+          "text-lede text-muted-foreground mt-5 max-w-2xl",
+          centered && "mx-auto",
+        )}
+      >
+        {lede}
+      </p>
+    )
+  }
+
+  <slot />
+</div>

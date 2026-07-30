@@ -7,6 +7,36 @@ export const id: SiteContent = {
     digiTool: "DigiTool",
     about: "Tentang Kami",
     contact: "Kontak",
+    themeLight: "Beralih ke tema terang",
+    themeDark: "Beralih ke tema gelap",
+    language: "Bahasa",
+    skipToContent: "Lewati ke konten",
+    openMenu: "Buka menu",
+    closeMenu: "Tutup menu",
+    home: "Ruang Cipta Digital — beranda",
+  },
+  ui: {
+    ourMission: "Misi kami",
+    whatWeBuild: "Yang Kami Bangun",
+    ecosystemProduct: "Produk ekosistem",
+    theChallenge: "Tantangannya",
+    marketOpportunity: "Peluang pasar",
+    howItWorks: "Cara Kerjanya",
+    step: "Langkah",
+    productShowcase: "Sorotan produk",
+    traction: "Traksi",
+    tractionAndScale: "Traksi & Skala",
+    tractionLede: "Dampak ekosistem digital kami di seluruh dunia.",
+    businessModel: "Model Bisnis",
+    productRoadmap: "Peta Jalan Produk",
+    competitiveAdvantage: "Keunggulan Kompetitif",
+    competitiveAdvantageLede:
+      "Bagaimana kami dibandingkan dengan solusi tradisional.",
+    tableFeature: "Fitur",
+    tableOurProduct: "Produk kami",
+    tableTraditional: "Tradisional",
+    ourVision: "Visi kami",
+    getStarted: "Mulai sekarang",
   },
   home: {
     hero: {
@@ -273,6 +303,10 @@ export const id: SiteContent = {
       tryAgain: "Coba Lagi",
       checkLater: "Periksa Transaksi Nanti",
       backToHome: "Kembali ke Beranda"
+    },
+    productCta: {
+      careerMate: "Ke Career Mate",
+      digitool: "Ke DigiTool"
     },
     fallbackMessage: "Terima kasih atas transaksi Anda."
   }

@@ -15,6 +15,17 @@
   });
 
   onMount(() => {
+    // A JS tween is invisible to CSS, so prefers-reduced-motion has to be
+    // handled here: land on the final value instead of counting up to it.
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reduceMotion) {
+      count.set(value, { duration: 0 });
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !visible) {

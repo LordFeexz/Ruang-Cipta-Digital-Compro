@@ -1,28 +1,32 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
+import SectionHeading from "./SectionHeading.astro";
 import type { PitchContent } from "../../../content/types";
 import { cn } from "../../../lib/utils";
 
 interface Props {
   content: PitchContent;
-  align?: 'left' | 'center';
+  align?: "left" | "center";
+  eyebrow?: string;
+  class?: string;
 }
 
-const { content, align = 'center' } = Astro.props;
+const { content, align = "center", eyebrow, class: className } = Astro.props;
 ---
 
-<SectionWrapper>
-  <div class={cn("max-w-4xl", align === 'center' && "mx-auto text-center")}>
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-8 text-brand-primary">
-      {content.title}
-    </h2>
-    
-    <div class="space-y-6">
-      {content.description.map((paragraph) => (
-        <p class="text-lg sm:text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed">
-          {paragraph}
-        </p>
-      ))}
-    </div>
+<SectionWrapper class={className}>
+  <SectionHeading title={content.title} eyebrow={eyebrow} align={align} />
+
+  <div
+    class={cn(
+      "mt-8 max-w-3xl space-y-5",
+      align === "center" && "mx-auto text-center",
+    )}
+  >
+    {
+      content.description.map((paragraph) => (
+        <p class="text-lede text-muted-foreground">{paragraph}</p>
+      ))
+    }
   </div>
 </SectionWrapper>

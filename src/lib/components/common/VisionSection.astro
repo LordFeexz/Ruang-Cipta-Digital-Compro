@@ -3,15 +3,29 @@ import SectionWrapper from "./SectionWrapper.astro";
 
 interface Props {
   vision: string;
+  eyebrow?: string;
 }
 
-const { vision } = Astro.props;
+const { vision, eyebrow } = Astro.props;
 ---
 
-<SectionWrapper class="bg-card">
-  <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight text-gradient">
-      "{vision}"
-    </h2>
-  </div>
+<SectionWrapper class="bg-card border-border border-y">
+  <figure class="mx-auto max-w-3xl text-center">
+    {
+      eyebrow && (
+        <figcaption class="eyebrow mb-8 inline-flex items-center gap-3">
+          <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
+          {eyebrow}
+        </figcaption>
+      )
+    }
+    <blockquote
+      class="font-display text-title text-foreground font-normal italic"
+    >
+      <span aria-hidden="true" class="text-brand not-italic">&ldquo;</span
+      >{vision}<span aria-hidden="true" class="text-brand not-italic"
+        >&rdquo;</span
+      >
+    </blockquote>
+  </figure>
 </SectionWrapper>

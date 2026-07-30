@@ -13,6 +13,7 @@ import MetricsRow from "../../lib/components/common/MetricsRow.svelte";
 import ProductDemo from "../../lib/components/common/ProductDemo.astro";
 import CTASection from "../../lib/components/common/CTASection.astro";
 import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
+import SectionHeading from "../../lib/components/common/SectionHeading.astro";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
@@ -22,7 +23,7 @@ export const prerender = true;
 
 const { lang } = Astro.params as { lang: LANG };
 const content = getContent(lang);
-const { home, seo } = content;
+const { home, seo, ui } = content;
 ---
 
 <BaseLayout 
@@ -37,28 +38,34 @@ const { home, seo } = content;
   }}
 >
   <HeroSection content={home.hero} />
-  
-  <ProblemSection content={home.problem} />
-  
+
+  <ProblemSection content={home.problem} eyebrow={ui.theChallenge} />
+
   <PitchSection content={home.intro} />
-  
-  <VisionSection vision={home.vision} />
-  
-  <MissionCards missions={home.mission} />
-  
-  <ProductCard products={home.products} />
-  
+
+  <VisionSection vision={home.vision} eyebrow={ui.ourVision} />
+
+  <MissionCards missions={home.mission} eyebrow={ui.ourMission} />
+
+  <ProductCard
+    products={home.products}
+    title={ui.whatWeBuild}
+    badgeLabel={ui.ecosystemProduct}
+  />
+
   <PitchSection content={home.whyWeExist} align="left" />
-  
-  <SectionWrapper class="bg-card/30">
-    <div class="max-w-3xl mx-auto text-center mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Traction & Scale</h2>
-      <p class="text-xl text-muted-foreground">The impact of our digital ecosystem across the globe.</p>
-    </div>
-    <MetricsRow metrics={home.impact} client:visible />
+
+  <SectionWrapper class="bg-card border-border border-y">
+    <SectionHeading
+      title={ui.tractionAndScale}
+      lede={ui.tractionLede}
+      eyebrow={ui.traction}
+      class="mb-14"
+    />
+    <MetricsRow metrics={home.impact} variant="plain" client:visible />
   </SectionWrapper>
-  
-  <ProductDemo demo={home.showcase} />
-  
-  <CTASection content={home.contact} />
+
+  <ProductDemo demo={home.showcase} eyebrow={ui.productShowcase} />
+
+  <CTASection content={home.contact} eyebrow={ui.getStarted} />
 </BaseLayout>

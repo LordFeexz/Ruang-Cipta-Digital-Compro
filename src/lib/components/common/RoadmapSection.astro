@@ -1,36 +1,43 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
+import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
 import type { RoadmapPhase } from "../../../content/types";
-import { cn } from "../../../lib/utils";
 
 interface Props {
   roadmap: RoadmapPhase[];
+  title: string;
+  eyebrow?: string;
 }
 
-const { roadmap } = Astro.props;
+const { roadmap, title, eyebrow } = Astro.props;
 ---
 
 <SectionWrapper>
-  <div class="max-w-3xl mx-auto text-center mb-16">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Product Roadmap</h2>
-  </div>
+  <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-    {roadmap.map((item, index) => (
-      <div class="relative">
-        {/* Horizontal connector line on desktop */}
-        {index < roadmap.length - 1 && (
-          <div class="hidden lg:block absolute top-1/2 left-[calc(50%+2rem)] right-[calc(-50%+2rem)] h-px bg-white/10 -translate-y-1/2 z-0"></div>
-        )}
-        
-        <GlowCard class={cn(`delay-[${index * 150}ms]`, "text-center relative z-10")}>
-          <div class="inline-block px-3 py-1 rounded-full bg-brand-secondary/10 text-brand-secondary text-sm font-bold tracking-widest uppercase mb-4">
-            {item.phase}
-          </div>
-          <h3 class="text-xl font-bold">{item.title}</h3>
-        </GlowCard>
-      </div>
-    ))}
-  </div>
+  <ol class="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      roadmap.map((item, index) => (
+        <li class="relative">
+          {/* Connector between phases on desktop */}
+          {index < roadmap.length - 1 && (
+            <div
+              class="bg-border absolute top-1/2 right-[calc(-50%+2rem)] left-[calc(50%+2rem)] z-0 hidden h-px -translate-y-1/2 lg:block"
+              aria-hidden="true"
+            />
+          )}
+
+          <GlowCard class="relative z-10" delay={index * 80}>
+            <span class="eyebrow text-brand-quiet mb-4 block">
+              {item.phase}
+            </span>
+            <h3 class="text-heading text-foreground font-medium">
+              {item.title}
+            </h3>
+          </GlowCard>
+        </li>
+      ))
+    }
+  </ol>
 </SectionWrapper>

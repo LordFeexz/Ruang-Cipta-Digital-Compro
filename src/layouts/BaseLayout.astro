@@ -1,14 +1,13 @@
 ---
-import { ModeWatcher } from "mode-watcher";
 import type { PageProps } from "../lib/interfaces/component";
 import { DEFAULT_LANG } from "../lib/i18n";
+import { getContent } from "../content";
 import "../styles/global.css";
 import "aos/dist/aos.css";
 import Navbar from "../lib/components/layouts/Navbar.astro";
 import Footer from "../lib/components/layouts/Footer.astro";
 import logoImg from "../assets/logo.png";
-import icon192 from "../assets/logo.png";
-import icon512 from "../assets/logo.png";
+import appleTouchIcon from "../assets/logo.png";
 
 interface Props extends PageProps {}
 
@@ -25,6 +24,7 @@ const {
 
 const baseUrl = import.meta.env.PUBLIC_DOMAIN || "http://localhost:4321";
 const ogImage = opengraph?.image || `${baseUrl}${logoImg.src}`;
+const { nav } = getContent(lang);
 ---
 
 <script is:inline>
@@ -52,26 +52,45 @@ const ogImage = opengraph?.image || `${baseUrl}${logoImg.src}`;
   }
 </script>
 
-<html lang={lang} translate="no" class="notranslate scroll-smooth dark">
+<html lang={lang} translate="no" class="notranslate scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href={logoImg.src} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
     <meta name="generator" content={Astro.generator} />
     <script>
       // Polyfills — processed by Vite/Astro bundler, client-side only.
       // core-js is tree-shaken: only APIs actually missing in the target browser are loaded.
       import "../polyfills";
       import AOS from "aos";
-      
+
       // Initialize AOS when the DOM is loaded
-      document.addEventListener("DOMContentLoaded", () => {
+      const startAos = () => {
         AOS.init({
-          duration: 800,
+          duration: 500,
+          easing: "ease-out-cubic",
           once: true,
-          offset: 50,
+          offset: 80,
+          // Reveal animations are decorative — skip them entirely when the OS
+          // asks for reduced motion (global.css also neutralises them in CSS).
+          disable: () =>
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches,
         });
-      });
+        // Hands opacity control over to aos.css. Until this runs, global.css
+        // forces [data-aos] visible so a failed/slow AOS load can never leave
+        // the page blank. Set synchronously after init() so the browser never
+        // paints the in-between state.
+        document.documentElement.setAttribute("data-aos-ready", "");
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", startAos);
+      } else {
+        // Module scripts can resolve after DOMContentLoaded has already fired,
+        // in which case the listener above would never run.
+        startAos();
+      }
     </script>
 
     <meta
@@ -79,11 +98,19 @@ const ogImage = opengraph?.image || `${baseUrl}${logoImg.src}`;
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="Ruang Cipta Digital" />
-    <link rel="icon" href={icon192.src} />
-    <link rel="apple-touch-icon" href={icon512.src} />
+    <link rel="apple-touch-icon" href={appleTouchIcon.src} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#120c1f" />
+    <meta
+      name="theme-color"
+      content="#FCFCFD"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#08080B"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
@@ -153,9 +180,14 @@ const ogImage = opengraph?.image || `${baseUrl}${logoImg.src}`;
     }
   </head>
   <body
-    class="text-foreground antialiased scroll-smooth min-h-svh bg-background flex flex-col relative overflow-x-hidden pt-20"
+    class="text-foreground bg-background relative flex min-h-svh scroll-smooth flex-col overflow-x-hidden pt-20 antialiased"
   >
-    <ModeWatcher client:load />
+    <a
+      href="#main-content"
+      class="bg-brand text-brand-on focus-visible:outline-ring sr-only rounded-full px-4 py-2 text-sm font-medium focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      {nav.skipToContent}
+    </a>
 
     <Navbar lang={lang} />
 

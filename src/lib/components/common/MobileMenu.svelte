@@ -3,57 +3,102 @@
   import X from "@lucide/svelte/icons/x";
   import ChevronRight from "@lucide/svelte/icons/chevron-right";
   import { Button } from "$lib/components/ui/button";
-  import type { NavContent } from '../../../content/types';
-  import LanguageSwitcher from './LanguageSwitcher.svelte';
+  import type { NavContent } from "../../../content/types";
+  import LanguageSwitcher from "./LanguageSwitcher.svelte";
+  import logoImg from "../../../assets/logo.png";
 
   export let lang: string = "id";
   export let navItems: NavContent;
 
   let isOpen = false;
+  let panel: HTMLElement | undefined;
+
+  const setBodyScroll = (locked: boolean) => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = locked ? "hidden" : "";
+  };
 
   const toggleMenu = () => {
     isOpen = !isOpen;
-    if (typeof document !== 'undefined') {
-      if (isOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    }
+    setBodyScroll(isOpen);
   };
+
+  const close = () => {
+    isOpen = false;
+    setBodyScroll(false);
+  };
+
+  const onKeydown = (event: KeyboardEvent) => {
+    if (event.key === "Escape" && isOpen) close();
+  };
+
+  const links = [
+    { href: `/${lang}/career-mate`, key: "careerMate" as const },
+    { href: `/${lang}/digitool`, key: "digiTool" as const },
+  ];
 </script>
 
-<Button variant="ghost" size="icon" onclick={toggleMenu} class="md:hidden">
-  <Menu class="h-6 w-6" />
+<svelte:window on:keydown={onKeydown} />
+
+<Button
+  variant="ghost"
+  onclick={toggleMenu}
+  aria-label={navItems.openMenu}
+  aria-expanded={isOpen}
+  class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-full md:hidden"
+>
+  <Menu class="size-5" aria-hidden="true" />
 </Button>
 
 {#if isOpen}
-  <div class="fixed inset-0 z-50 bg-background/98 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200">
-    <div class="container mx-auto px-4 py-4 flex flex-col h-full">
-      <div class="flex justify-between items-center mb-8">
-        <a href={`/${lang}`} onclick={toggleMenu} class="flex items-center gap-2">
-          <img src="/logo.png" alt="Ruang Cipta Digital" class="h-8 w-auto" />
-          <span class="font-bold text-lg hidden sm:block tracking-tight">Ruang Cipta Digital</span>
+  <div
+    bind:this={panel}
+    role="dialog"
+    aria-modal="true"
+    aria-label={navItems.products}
+    class="bg-background animate-in fade-in fixed inset-0 z-50 duration-200"
+  >
+    <div class="container mx-auto flex h-full flex-col px-4 py-4">
+      <div class="flex h-16 items-center justify-between">
+        <a href={`/${lang}`} onclick={close} class="flex items-center gap-3">
+          <img src={logoImg.src} alt="" width="32" height="32" class="h-8 w-auto" />
+          <span class="text-base font-medium tracking-tight">
+            Ruang Cipta Digital
+          </span>
         </a>
-        <Button variant="ghost" size="icon" onclick={toggleMenu} class="rounded-full bg-white/5 hover:bg-white/10">
-          <X class="h-6 w-6" />
+        <Button
+          variant="ghost"
+          onclick={close}
+          aria-label={navItems.closeMenu}
+          class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-full"
+        >
+          <X class="size-5" aria-hidden="true" />
         </Button>
       </div>
 
-      <nav class="grow flex flex-col justify-center space-y-6 text-2xl font-semibold tracking-tight">
-        <a href={`/${lang}/career-mate`} onclick={toggleMenu} class="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors">
-          <span>{navItems.careerMate}</span>
-          <ChevronRight class="h-6 w-6 text-muted-foreground" />
-        </a>
-        <a href={`/${lang}/digitool`} onclick={toggleMenu} class="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors">
-          <span>{navItems.digiTool}</span>
-          <ChevronRight class="h-6 w-6 text-muted-foreground" />
-        </a>
+      <nav class="mt-10 flex flex-col gap-2" aria-label={navItems.products}>
+        {#each links as link (link.href)}
+          <a
+            href={link.href}
+            onclick={close}
+            class="border-border hover:bg-accent hover:border-brand-ring font-display flex items-center justify-between rounded-xl border px-5 py-5 text-2xl font-normal transition-colors"
+          >
+            <span>{navItems[link.key]}</span>
+            <ChevronRight class="text-muted-foreground size-5" aria-hidden="true" />
+          </a>
+        {/each}
       </nav>
 
-      <div class="mt-auto py-8 border-t border-white/10 flex items-center justify-between">
-        <LanguageSwitcher currentLang={lang} />
-        <Button href={`mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`} onclick={toggleMenu} class="rounded-full bg-brand-gradient hover:opacity-90 text-white shadow-lg shadow-brand-primary/20">
+      <div
+        class="border-border mt-auto flex items-center justify-between border-t py-6"
+      >
+        <LanguageSwitcher currentLang={lang} label={navItems.language} />
+        <Button
+          href={`mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`}
+          onclick={close}
+          variant="brand"
+          class="h-11 rounded-full px-6"
+        >
           {navItems.contact}
         </Button>
       </div>

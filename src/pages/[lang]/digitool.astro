@@ -15,6 +15,7 @@ import RoadmapSection from "../../lib/components/common/RoadmapSection.astro";
 import VisionSection from "../../lib/components/common/VisionSection.astro";
 import CTASection from "../../lib/components/common/CTASection.astro";
 import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
+import SectionHeading from "../../lib/components/common/SectionHeading.astro";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
@@ -24,7 +25,9 @@ export const prerender = true;
 
 const { lang } = Astro.params as { lang: LANG };
 const content = getContent(lang);
-const { digitool, seo } = content;
+const { digitool, seo, ui } = content;
+
+const productUrl = import.meta.env.PUBLIC_DIGITOOL_URL;
 ---
 
 <BaseLayout 
@@ -38,36 +41,58 @@ const { digitool, seo } = content;
     type: "website"
   }}
 >
-  <HeroSection content={digitool.hero}>
-    <div class="max-w-4xl mx-auto mt-12 bg-card/50 backdrop-blur-md rounded-3xl p-8 border border-white/10">
-      <MetricsRow metrics={digitool.hero.metrics} client:visible />
+  <HeroSection content={digitool.hero} primaryLink={productUrl}>
+    <div
+      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-3xl border p-8"
+    >
+      <MetricsRow
+        metrics={digitool.hero.metrics}
+        variant="plain"
+        client:visible
+      />
     </div>
   </HeroSection>
-  
-  <ProblemSection content={digitool.problem} />
-  
-  <MarketOpportunity content={digitool.market} />
-  
-  <SectionWrapper class="bg-card/30">
-    <TimelineSection steps={digitool.solution} client:visible />
+
+  <ProblemSection content={digitool.problem} eyebrow={ui.theChallenge} />
+
+  <MarketOpportunity content={digitool.market} eyebrow={ui.marketOpportunity} />
+
+  <SectionWrapper class="bg-card border-border border-y">
+    <TimelineSection
+      steps={digitool.solution}
+      title={ui.howItWorks}
+      stepLabel={ui.step}
+      client:visible
+    />
   </SectionWrapper>
-  
-  <ProductDemo demo={digitool.demo} />
-  
+
+  <ProductDemo demo={digitool.demo} eyebrow={ui.productShowcase} />
+
   <SectionWrapper>
-    <div class="max-w-3xl mx-auto text-center mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Traction</h2>
-    </div>
+    <SectionHeading title={ui.traction} class="mb-14" />
     <MetricsRow metrics={digitool.traction} client:visible />
   </SectionWrapper>
-  
-  <BusinessModelCards models={digitool.businessModel} />
-  
-  <ComparisonTable data={digitool.advantage} />
-  
-  <RoadmapSection roadmap={digitool.roadmap} />
-  
-  <VisionSection vision={digitool.futureVision} />
-  
-  <CTASection content={digitool.cta} primaryLink={import.meta.env.PUBLIC_DIGITOOL_URL} />
+
+  <BusinessModelCards models={digitool.businessModel} title={ui.businessModel} />
+
+  <ComparisonTable
+    data={digitool.advantage}
+    title={ui.competitiveAdvantage}
+    lede={ui.competitiveAdvantageLede}
+    headings={{
+      feature: ui.tableFeature,
+      product: ui.tableOurProduct,
+      traditional: ui.tableTraditional,
+    }}
+  />
+
+  <RoadmapSection roadmap={digitool.roadmap} title={ui.productRoadmap} />
+
+  <VisionSection vision={digitool.futureVision} eyebrow={ui.ourVision} />
+
+  <CTASection
+    content={digitool.cta}
+    primaryLink={productUrl}
+    eyebrow={ui.getStarted}
+  />
 </BaseLayout>

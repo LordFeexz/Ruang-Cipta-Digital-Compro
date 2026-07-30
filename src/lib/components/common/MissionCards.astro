@@ -1,18 +1,17 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
+import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
 import type { MissionCard } from "../../../content/types";
-import Unlock from "@lucide/svelte/icons/unlock";
-import Zap from "@lucide/svelte/icons/zap";
-import Lightbulb from "@lucide/svelte/icons/lightbulb";
-import Leaf from "@lucide/svelte/icons/leaf";
-import { cn } from "../../../lib/utils";
+import { Leaf, Lightbulb, Unlock, Zap } from "./icons";
 
 interface Props {
   missions: MissionCard[];
+  eyebrow?: string;
+  title?: string;
 }
 
-const { missions } = Astro.props;
+const { missions, eyebrow, title } = Astro.props;
 
 // Map icon names to Lucide components
 const getIcon = (name: string) => {
@@ -32,19 +31,23 @@ const getIcon = (name: string) => {
 ---
 
 <SectionWrapper>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  {title && <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />}
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
     {
       missions.map((mission, index) => {
         const Icon = getIcon(mission.icon);
         return (
-          <GlowCard
-            class={cn(`delay-[${index * 100}ms]`)}
-          >
-            <div class="h-12 w-12 rounded-lg bg-brand-primary/20 flex items-center justify-center mb-6 text-brand-primary">
-              <Icon class="h-6 w-6" />
+          <GlowCard delay={index * 80}>
+            <div class="bg-brand-soft text-brand mb-6 flex size-11 items-center justify-center rounded-xl">
+              <Icon class="size-5" aria-hidden="true" />
             </div>
-            <h3 class="text-xl font-bold mb-3">{mission.title}</h3>
-            <p class="text-muted-foreground">{mission.description}</p>
+            <h3 class="text-heading text-foreground mb-3 font-medium">
+              {mission.title}
+            </h3>
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              {mission.description}
+            </p>
           </GlowCard>
         );
       })

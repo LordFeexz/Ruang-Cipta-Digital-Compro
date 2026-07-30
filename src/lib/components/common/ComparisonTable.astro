@@ -1,57 +1,109 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
-import GlowCard from "./GlowCard.astro";
+import SectionHeading from "./SectionHeading.astro";
 import type { ComparisonRow } from "../../../content/types";
-import CheckCircle2 from "@lucide/svelte/icons/check-circle-2";
-import XCircle from "@lucide/svelte/icons/x-circle";
+import { Check, X } from "./icons";
 
 interface Props {
   data: ComparisonRow[];
+  title: string;
+  lede?: string;
+  eyebrow?: string;
+  headings: { feature: string; product: string; traditional: string };
 }
 
-const { data } = Astro.props;
+const { data, title, lede, eyebrow, headings } = Astro.props;
+
+// The "not supported" marker is authored as a localized string, so both
+// spellings have to be recognised.
+const isNegative = (value: string) =>
+  ["no", "tidak"].includes(value.trim().toLowerCase());
 ---
 
 <SectionWrapper>
-  <div class="max-w-3xl mx-auto text-center mb-16">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Competitive Advantage</h2>
-    <p class="text-xl text-muted-foreground">How we stack up against traditional solutions.</p>
-  </div>
+  <SectionHeading
+    title={title}
+    lede={lede}
+    eyebrow={eyebrow}
+    class="mb-14"
+  />
 
-  <GlowCard class="max-w-4xl mx-auto p-0 overflow-hidden bg-background">
+  <div
+    class="border-border bg-card mx-auto max-w-4xl overflow-hidden rounded-2xl border"
+  >
     <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
+      <table class="w-full border-collapse text-left">
+        <caption class="sr-only">{title}</caption>
         <thead>
-          <tr class="bg-card">
-            <th class="p-6 font-semibold text-lg text-muted-foreground border-b border-white/10 w-1/3">Feature</th>
-            <th class="p-6 font-bold text-xl text-brand-primary border-b border-white/10 w-1/3">Our Product</th>
-            <th class="p-6 font-semibold text-lg text-muted-foreground border-b border-white/10 w-1/3">Traditional</th>
+          <tr class="border-border bg-muted border-b">
+            <th
+              scope="col"
+              class="text-muted-foreground w-1/3 p-5 text-sm font-medium"
+            >
+              {headings.feature}
+            </th>
+            <th
+              scope="col"
+              class="text-foreground w-1/3 p-5 text-sm font-medium"
+            >
+              {headings.product}
+            </th>
+            <th
+              scope="col"
+              class="text-muted-foreground w-1/3 p-5 text-sm font-medium"
+            >
+              {headings.traditional}
+            </th>
           </tr>
         </thead>
         <tbody>
-          {data.map((row) => (
-            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-              <td class="p-6 font-medium text-lg">{row.feature}</td>
-              <td class="p-6">
-                <div class="flex items-center gap-3">
-                  <CheckCircle2 class="h-6 w-6 text-green-500" />
-                  <span class="font-semibold text-foreground">{row.product}</span>
-                </div>
-              </td>
-              <td class="p-6">
-                <div class="flex items-center gap-3 opacity-60">
-                  {row.traditional === "No" || row.traditional === "Tidak" ? (
-                    <XCircle class="h-6 w-6 text-destructive" />
-                  ) : (
-                    <CheckCircle2 class="h-6 w-6 text-muted-foreground" />
-                  )}
-                  <span>{row.traditional}</span>
-                </div>
-              </td>
-            </tr>
-          ))}
+          {
+            data.map((row) => (
+              <tr class="border-border hover:bg-accent border-b transition-colors last:border-b-0">
+                <th
+                  scope="row"
+                  class="text-foreground p-5 text-left text-base font-normal"
+                >
+                  {row.feature}
+                </th>
+                <td class="p-5">
+                  <div class="flex items-center gap-2.5">
+                    <span
+                      class="bg-brand-soft text-brand grid size-5 shrink-0 place-items-center rounded-full"
+                      aria-hidden="true"
+                    >
+                      <Check class="size-3" />
+                    </span>
+                    <span class="text-foreground text-base">{row.product}</span>
+                  </div>
+                </td>
+                <td class="p-5">
+                  <div class="text-muted-foreground flex items-center gap-2.5">
+                    {/* Icon shape AND colour differ, so the distinction is not
+                        carried by colour alone. */}
+                    {isNegative(row.traditional) ? (
+                      <span
+                        class="bg-destructive/10 text-destructive grid size-5 shrink-0 place-items-center rounded-full"
+                        aria-hidden="true"
+                      >
+                        <X class="size-3" />
+                      </span>
+                    ) : (
+                      <span
+                        class="bg-muted text-muted-foreground grid size-5 shrink-0 place-items-center rounded-full"
+                        aria-hidden="true"
+                      >
+                        <Check class="size-3" />
+                      </span>
+                    )}
+                    <span class="text-base">{row.traditional}</span>
+                  </div>
+                </td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
-  </GlowCard>
+  </div>
 </SectionWrapper>

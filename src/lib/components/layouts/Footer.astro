@@ -2,6 +2,7 @@
 import { getContent } from "../../../content";
 import { DEFAULT_LANG } from "../../../lib/i18n";
 import logoImg from "../../../assets/logo.png";
+import { Mail } from "../common/icons";
 
 interface Props {
   lang?: string;
@@ -9,18 +10,80 @@ interface Props {
 
 const { lang = DEFAULT_LANG } = Astro.props;
 const content = getContent(lang);
+const { nav, footer } = content;
+
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL;
+
+const productLinks = [
+  { href: `/${lang}/career-mate`, label: nav.careerMate },
+  { href: `/${lang}/digitool`, label: nav.digiTool },
+];
 ---
 
-<footer class="border-t border-white/5 py-12 bg-background relative overflow-hidden">
-  <div class="absolute inset-0 bg-brand-primary/5 opacity-50"></div>
-  <div class="container mx-auto px-4 sm:px-6 relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
-    <div class="flex items-center gap-3">
-      <img src={logoImg.src} alt="Ruang Cipta Digital" class="h-6 w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all" />
-      <span class="font-medium text-sm text-muted-foreground tracking-tight">Ruang Cipta Digital</span>
+<footer class="border-border bg-background border-t">
+  <div class="container mx-auto px-4 py-16 sm:px-6">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a
+          href={`/${lang}`}
+          class="inline-flex items-center gap-3"
+          aria-label={nav.home}
+        >
+          <img
+            src={logoImg.src}
+            alt=""
+            width="32"
+            height="32"
+            class="h-8 w-auto"
+          />
+          <span class="text-base font-medium tracking-tight">
+            Ruang Cipta Digital
+          </span>
+        </a>
+        <p class="text-muted-foreground mt-5 max-w-sm text-sm leading-relaxed">
+          {content.home.hero.subheadline}
+        </p>
+      </div>
+
+      <!-- Products -->
+      <nav aria-labelledby="footer-products">
+        <h2 id="footer-products" class="eyebrow mb-5 block">
+          {nav.products}
+        </h2>
+        <ul class="space-y-3">
+          {
+            productLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h2 class="eyebrow mb-5 block">{nav.contact}</h2>
+        <a
+          href={`mailto:${contactEmail}`}
+          class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
+        >
+          <Mail class="size-4 shrink-0" aria-hidden="true" />
+          {contactEmail}
+        </a>
+      </div>
     </div>
-    
-    <div class="text-sm text-muted-foreground">
-      {content.footer.copyright}
+
+    <div class="border-border mt-14 border-t pt-8">
+      <p class="text-muted-foreground text-sm">
+        {footer.copyright}
+      </p>
     </div>
   </div>
 </footer>

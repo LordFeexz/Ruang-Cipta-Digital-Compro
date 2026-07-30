@@ -9,8 +9,12 @@ interface Props {
 const { class: className = "", id } = Astro.props;
 ---
 
-<section id={id} class={cn("py-20 sm:py-32 relative overflow-hidden", className)} data-aos="fade-up">
-  <div class="container mx-auto px-4 sm:px-6 relative z-10">
+<section
+  id={id}
+  class={cn("relative overflow-hidden py-24 sm:py-32 lg:py-36", className)}
+  data-aos="fade-up"
+>
+  <div class="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <slot />
   </div>
 </section>

@@ -1,37 +1,33 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
+import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
 import type { BusinessModelCard } from "../../../content/types";
-import Briefcase from "@lucide/svelte/icons/briefcase";
-import { cn } from "../../../lib/utils";
 
 interface Props {
   models: BusinessModelCard[];
+  title: string;
+  eyebrow?: string;
 }
 
-const { models } = Astro.props;
+const { models, title, eyebrow } = Astro.props;
 ---
 
 <SectionWrapper>
-  <div class="max-w-3xl mx-auto text-center mb-16">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-      Business Model
-    </h2>
-  </div>
+  <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
     {
       models.map((model, index) => (
-        <GlowCard
-          class={cn(
-            `delay-[${index * 100}ms]`,
-            "text-center flex flex-col items-center justify-center min-h-[200px]",
-          )}
-        >
-          <div class="h-16 w-16 rounded-full bg-white/5 flex items-center justify-center mb-6">
-            <Briefcase class="h-8 w-8 text-brand-primary" />
-          </div>
-          <h3 class="text-xl font-bold">{model.title}</h3>
+        <GlowCard class="flex flex-col justify-between" delay={index * 80}>
+          {/* An index reads as a set; the previous version repeated one
+              Briefcase icon four times, which said nothing. */}
+          <span class="eyebrow text-brand-quiet" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <h3 class="text-heading text-foreground mt-10 font-medium">
+            {model.title}
+          </h3>
         </GlowCard>
       ))
     }

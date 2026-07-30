@@ -17,12 +17,17 @@
 
 {#if showConfetti}
   <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden" aria-hidden="true">
-    {#each Array(40) as _, i}
-      <div 
-        class="confetti-piece" 
+    {#each Array(32) as _, i}
+      <div
+        class="confetti-piece"
         style="
           --c-left: {Math.random() * 100}%;
-          --c-color: {['#22c55e', '#3b82f6', '#eab308', '#ec4899', '#a855f7'][Math.floor(Math.random() * 5)]};
+          --c-color: {[
+          'var(--brand)',
+          'var(--brand-quiet)',
+          'var(--success)',
+          'var(--muted-foreground)',
+        ][Math.floor(Math.random() * 4)]};
           --c-delay: {Math.random() * 0.5}s;
           --c-duration: {1.5 + Math.random() * 1.5}s;
           --c-rotate: {Math.random() * 360}deg;

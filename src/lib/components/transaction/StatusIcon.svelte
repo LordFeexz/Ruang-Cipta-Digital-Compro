@@ -6,19 +6,19 @@
 
 <div class="relative w-24 h-24 sm:w-32 sm:h-32 mb-8 flex items-center justify-center">
   {#if state === "success"}
-    <div class="absolute inset-0 bg-green-500/20 rounded-full blur-2xl animate-pulse"></div>
-    <svg class="relative w-full h-full text-green-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="absolute inset-0 bg-success/15 rounded-full blur-2xl"></div>
+    <svg class="relative w-full h-full text-success" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle class="animate-draw-circle" cx="50" cy="50" r="45" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
       <path class="animate-draw-check" d="M30 50L45 65L70 35" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   {:else if state === "pending"}
-    <div class="absolute inset-0 bg-amber-500/20 rounded-full blur-2xl animate-pulse"></div>
-    <svg class="relative w-full h-full text-amber-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="absolute inset-0 bg-warning/15 rounded-full blur-2xl"></div>
+    <svg class="relative w-full h-full text-warning" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle class="animate-draw-circle" cx="50" cy="50" r="45" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
       <path class="animate-spin-slow origin-center" d="M50 25V50L65 65" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   {:else}
-    <div class="absolute inset-0 bg-destructive/20 rounded-full blur-2xl animate-pulse"></div>
+    <div class="absolute inset-0 bg-destructive/15 rounded-full blur-2xl"></div>
     <svg class="relative w-full h-full text-destructive" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle class="animate-draw-circle" cx="50" cy="50" r="45" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
       <path class="animate-draw-cross" d="M35 35L65 65M65 35L35 65" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />

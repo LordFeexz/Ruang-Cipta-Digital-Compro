@@ -7,6 +7,35 @@ export const en: SiteContent = {
     digiTool: "DigiTool",
     about: "About",
     contact: "Contact",
+    themeLight: "Switch to light theme",
+    themeDark: "Switch to dark theme",
+    language: "Language",
+    skipToContent: "Skip to content",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    home: "Ruang Cipta Digital — home",
+  },
+  ui: {
+    ourMission: "Our mission",
+    whatWeBuild: "What We Build",
+    ecosystemProduct: "Ecosystem product",
+    theChallenge: "The challenge",
+    marketOpportunity: "Market opportunity",
+    howItWorks: "How It Works",
+    step: "Step",
+    productShowcase: "Product showcase",
+    traction: "Traction",
+    tractionAndScale: "Traction & Scale",
+    tractionLede: "The impact of our digital ecosystem across the globe.",
+    businessModel: "Business Model",
+    productRoadmap: "Product Roadmap",
+    competitiveAdvantage: "Competitive Advantage",
+    competitiveAdvantageLede: "How we stack up against traditional solutions.",
+    tableFeature: "Feature",
+    tableOurProduct: "Our product",
+    tableTraditional: "Traditional",
+    ourVision: "Our vision",
+    getStarted: "Get started",
   },
   home: {
     hero: {
@@ -273,6 +302,10 @@ export const en: SiteContent = {
       tryAgain: "Try Again",
       checkLater: "Check Transaction Later",
       backToHome: "Back to Home"
+    },
+    productCta: {
+      careerMate: "To Career Mate",
+      digitool: "To DigiTool"
     },
     fallbackMessage: "Thank you for your transaction."
   }
