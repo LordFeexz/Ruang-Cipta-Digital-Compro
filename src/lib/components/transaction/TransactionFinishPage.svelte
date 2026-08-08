@@ -2,7 +2,6 @@
   import type { TransactionFinishContent } from "../../../content/types";
   import StatusIcon from "./StatusIcon.svelte";
   import CSSConfetti from "./CSSConfetti.svelte";
-  import AnimatedGradient from "../common/AnimatedGradient.svelte";
   import { Button } from "$lib/components/ui/button";
 
   export let content: TransactionFinishContent;
@@ -15,9 +14,13 @@
 </script>
 
 <div
-  class="relative flex min-h-[80vh] flex-col items-center justify-center px-4 py-20"
+  class="relative flex min-h-[80vh] flex-col items-center justify-center overflow-hidden px-4 py-20"
 >
-  <AnimatedGradient />
+  <!-- Flat engineering-paper backdrop — the one decoration this page band gets. -->
+  <div
+    class="blueprint-grid blueprint-fade pointer-events-none absolute inset-0"
+    aria-hidden="true"
+  ></div>
 
   <CSSConfetti active={true} />
 
@@ -25,13 +28,11 @@
        nodes do not exist when AOS.init() runs, yet aos.css would still apply
        opacity:0 to them. StatusIcon's stroke-draw is the reveal here. -->
   <div
-    class="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center text-center"
+    class="flat-card relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-6 py-12 text-center sm:px-12 sm:py-16"
   >
     <StatusIcon state="success" />
 
-    <h1
-      class="font-display text-title text-foreground mt-8 font-normal"
-    >
+    <h1 class="font-display text-title text-foreground mt-8">
       {content.title.success}
     </h1>
 
@@ -41,7 +42,7 @@
 
     <!-- Product CTAs -->
     <div
-      class="mt-12 flex w-full max-w-2xl flex-col justify-center gap-3 sm:flex-row sm:gap-4"
+      class="border-border mt-12 flex w-full flex-col justify-center gap-3 border-t pt-8 sm:flex-row sm:gap-4"
     >
       <Button href={careerMateLink} variant="brand" size="xl" class="flex-1">
         {content.productCta.careerMate}

@@ -1,97 +1,103 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn-svelte/tailwind.css";
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/playfair-display";
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/space-grotesk";
 
 @custom-variant dark (&:is(.dark *));
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   LIGHT THEME
-   Warm-neutral paper canvas with a violet-leaning hue (286) running through
-   every neutral, so greys read as intentional rather than dead.
+   ELECTRIC BLUE BENTO — flat design system
+
+   Light-first. The brand blue is sampled from the logo mark (electric
+   cyan-blue → deep blue). Flat means: no drop shadows, no soft glows, no
+   multi-stop gradients — hierarchy comes from borders, tinted surfaces, type
+   weight, and the brand blue itself. Every neutral leans into the blue hue
+   axis (~250) so greys read as part of one temperature.
    ───────────────────────────────────────────────────────────────────────────── */
 :root {
 	color-scheme: light;
 
-	--background: oklch(0.9925 0.0015 286); /* #FCFCFD */
-	--foreground: oklch(0.185 0.005 286); /* #17171A */
-	--card: oklch(1 0 0); /* #FFFFFF — lifts above the canvas */
-	--card-foreground: oklch(0.185 0.005 286);
+	--background: oklch(1 0 0); /* pure white canvas */
+	--foreground: oklch(0.17 0.02 258); /* #0B1322 near-black blue */
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.17 0.02 258);
 	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.185 0.005 286);
-	--primary: oklch(0.24 0.008 286); /* near-black, not pure */
-	--primary-foreground: oklch(0.99 0 0);
-	--secondary: oklch(0.965 0.002 286);
-	--secondary-foreground: oklch(0.24 0.008 286);
-	--muted: oklch(0.968 0.002 286);
-	--muted-foreground: oklch(0.505 0.009 286); /* ~#71717A */
-	--accent: oklch(0.962 0.003 286); /* hover surface */
-	--accent-foreground: oklch(0.185 0.005 286);
+	--popover-foreground: oklch(0.17 0.02 258);
+	--primary: oklch(0.54 0.19 257); /* brand blue doubles as primary */
+	--primary-foreground: oklch(1 0 0);
+	--secondary: oklch(0.97 0.008 245); /* cool tinted section surface */
+	--secondary-foreground: oklch(0.17 0.02 258);
+	--muted: oklch(0.965 0.008 245); /* #F1F5FA */
+	--muted-foreground: oklch(0.47 0.025 255); /* #5A6A80 */
+	--accent: oklch(0.955 0.012 245); /* hover surface */
+	--accent-foreground: oklch(0.17 0.02 258);
 	--destructive: oklch(0.577 0.245 27.325);
 	--success: oklch(0.52 0.15 152);
 	--warning: oklch(0.62 0.15 75);
-	--border: oklch(0.918 0.003 286); /* #E8E8EC hairline */
-	--input: oklch(0.885 0.004 286);
-	--ring: oklch(0.52 0.16 275);
+	--border: oklch(0.9 0.012 248); /* #D9E1EC — flat 1px lines do the work */
+	--input: oklch(0.87 0.014 248);
+	--ring: oklch(0.54 0.19 257);
 	--radius: 0.75rem;
 
-	/* Brand ramp — deliberately darker in light mode so it clears 4.5:1 on white */
-	--brand: oklch(0.52 0.16 275);
-	--brand-hover: oklch(0.46 0.17 275);
-	--brand-soft: oklch(0.52 0.16 275 / 8%); /* tinted fills, icon chips */
-	--brand-ring: oklch(0.52 0.16 275 / 22%); /* hover borders */
-	--brand-on: oklch(0.99 0 0); /* text/icons on a brand fill */
-	--brand-quiet: oklch(0.42 0.1 275); /* brand-tinted text on --background */
+	/* Brand ramp — logo blue. Dark enough for white text at body sizes. */
+	--brand: oklch(0.54 0.19 257); /* ~#0E6BD7 primary actions, links */
+	--brand-hover: oklch(0.48 0.19 257); /* pressed/hover fill */
+	--brand-bright: oklch(0.66 0.17 248); /* ~#2E9BF0 electric — big numerals,
+	                                         icon strokes, decorative only */
+	--brand-soft: oklch(0.54 0.19 257 / 8%); /* tinted chips, icon tiles */
+	--brand-ring: oklch(0.54 0.19 257 / 30%); /* hover borders on cards */
+	--brand-on: oklch(1 0 0); /* text/icons on a brand fill */
+	--brand-quiet: oklch(0.44 0.15 257); /* brand-tinted text on white, 4.5:1+ */
 
-	/* Ambient decoration (AnimatedGradient blobs) — swapped per theme */
-	--ambient-opacity: 0.28;
-	--ambient-blend: normal;
+	/* Circuit accent — the cyan node color from the logo tip. Decorative ONLY
+	   (never text): grid dots, node markers, trace lines. */
+	--circuit: oklch(0.75 0.13 230);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
    DARK THEME
-   Near-black canvas (not pure #000, which smears on OLED) with the same hue
-   axis, so switching themes reads as one design rather than two.
+   Blue-black canvas on the same hue axis. Brand flips brighter with dark
+   text on fills (electric-on-dark), borders go translucent white.
    ───────────────────────────────────────────────────────────────────────────── */
 .dark {
 	color-scheme: dark;
 
-	--background: oklch(0.135 0.006 286); /* ~#08080B */
-	--foreground: oklch(0.955 0.002 286); /* #EDEDEF */
-	--card: oklch(0.175 0.007 286); /* elevated surface */
-	--card-foreground: oklch(0.955 0.002 286);
-	--popover: oklch(0.195 0.007 286);
-	--popover-foreground: oklch(0.955 0.002 286);
-	--primary: oklch(0.93 0.003 286);
-	--primary-foreground: oklch(0.16 0.008 286);
-	--secondary: oklch(0.235 0.008 286);
-	--secondary-foreground: oklch(0.955 0.002 286);
-	--muted: oklch(0.235 0.008 286);
-	--muted-foreground: oklch(0.665 0.012 286); /* ~#8A8F98 */
-	--accent: oklch(0.245 0.009 286);
-	--accent-foreground: oklch(0.955 0.002 286);
+	--background: oklch(0.15 0.016 255); /* ~#0C1119 */
+	--foreground: oklch(0.955 0.005 250); /* #ECEFF4 */
+	--card: oklch(0.19 0.018 253); /* elevated by tint, not shadow */
+	--card-foreground: oklch(0.955 0.005 250);
+	--popover: oklch(0.21 0.018 253);
+	--popover-foreground: oklch(0.955 0.005 250);
+	--primary: oklch(0.68 0.16 250);
+	--primary-foreground: oklch(0.15 0.02 255);
+	--secondary: oklch(0.225 0.02 252);
+	--secondary-foreground: oklch(0.955 0.005 250);
+	--muted: oklch(0.225 0.02 252);
+	--muted-foreground: oklch(0.68 0.02 252); /* #93A0B4 */
+	--accent: oklch(0.24 0.022 252);
+	--accent-foreground: oklch(0.955 0.005 250);
 	--destructive: oklch(0.704 0.191 22.216);
 	--success: oklch(0.72 0.16 152);
 	--warning: oklch(0.78 0.15 78);
-	--border: oklch(1 0 0 / 9%);
-	--input: oklch(1 0 0 / 14%);
-	--ring: oklch(0.68 0.15 274);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.68 0.16 250);
 
-	--brand: oklch(0.68 0.15 274);
-	--brand-hover: oklch(0.74 0.14 274);
-	--brand-soft: oklch(0.68 0.15 274 / 14%);
-	--brand-ring: oklch(0.68 0.15 274 / 28%);
-	--brand-on: oklch(0.145 0.01 286);
-	--brand-quiet: oklch(0.78 0.11 274);
+	--brand: oklch(0.68 0.16 250); /* ~#4EA3F5 */
+	--brand-hover: oklch(0.74 0.14 248);
+	--brand-bright: oklch(0.74 0.14 240);
+	--brand-soft: oklch(0.68 0.16 250 / 13%);
+	--brand-ring: oklch(0.68 0.16 250 / 32%);
+	--brand-on: oklch(0.15 0.02 255); /* dark text on the bright blue fill */
+	--brand-quiet: oklch(0.76 0.12 248);
 
-	--ambient-opacity: 0.5;
-	--ambient-blend: screen;
+	--circuit: oklch(0.78 0.12 225);
 }
 
 @theme inline {
-	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-display: 'Playfair Display Variable', Georgia, 'Times New Roman', serif;
+	--font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Space Grotesk Variable', 'DM Sans Variable', ui-sans-serif, sans-serif;
 
 	--color-ring: var(--ring);
 	--color-input: var(--input);
@@ -116,10 +122,12 @@
 
 	--color-brand: var(--brand);
 	--color-brand-hover: var(--brand-hover);
+	--color-brand-bright: var(--brand-bright);
 	--color-brand-soft: var(--brand-soft);
 	--color-brand-ring: var(--brand-ring);
 	--color-brand-on: var(--brand-on);
 	--color-brand-quiet: var(--brand-quiet);
+	--color-circuit: var(--circuit);
 
 	--radius-sm: calc(var(--radius) * 0.5);
 	--radius-md: calc(var(--radius) * 0.7);
@@ -130,39 +138,37 @@
 	--radius-4xl: calc(var(--radius) * 2.4);
 
 	/* ── Fluid type scale ──────────────────────────────────────────────────────
-	   Each step carries its own line-height and tracking, which retires the
-	   `text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight` chains. */
-	--text-eyebrow: 0.75rem;
+	   Space Grotesk carries display/title/heading (weight baked into the step);
+	   DM Sans carries lede/body. Bolder + tighter than the previous system —
+	   the flat style leans on type weight for hierarchy. */
+	--text-eyebrow: 0.8125rem;
 	--text-eyebrow--line-height: 1;
-	--text-eyebrow--letter-spacing: 0.18em;
-	--text-eyebrow--font-weight: 500;
+	--text-eyebrow--letter-spacing: 0.14em;
+	--text-eyebrow--font-weight: 600;
 
 	--text-lede: clamp(1.0625rem, 1.4vw, 1.25rem);
 	--text-lede--line-height: 1.6;
 
-	--text-heading: clamp(1.1875rem, 1.5vw, 1.4rem);
-	--text-heading--line-height: 1.3;
-	--text-heading--letter-spacing: -0.01em;
+	--text-heading: clamp(1.25rem, 1.6vw, 1.5rem);
+	--text-heading--line-height: 1.25;
+	--text-heading--letter-spacing: -0.015em;
+	--text-heading--font-weight: 600;
 
-	--text-title: clamp(1.875rem, 3.4vw, 2.75rem);
-	--text-title--line-height: 1.12;
-	--text-title--letter-spacing: -0.02em;
+	--text-title: clamp(2rem, 3.8vw, 3rem);
+	--text-title--line-height: 1.08;
+	--text-title--letter-spacing: -0.025em;
+	--text-title--font-weight: 600;
 
-	--text-display: clamp(2.5rem, 5.5vw, 4.5rem);
-	--text-display--line-height: 1.04;
-	--text-display--letter-spacing: -0.028em;
+	--text-display: clamp(2.75rem, 6.5vw, 5.25rem);
+	--text-display--line-height: 1;
+	--text-display--letter-spacing: -0.035em;
+	--text-display--font-weight: 700;
 
-	/* Animations */
-	--animate-drift: drift 22s ease-in-out infinite alternate;
-
-	@keyframes drift {
-		0% {
-			transform: translate3d(0, 0, 0) scale(1);
-		}
-		100% {
-			transform: translate3d(4%, -3%, 0) scale(1.08);
-		}
-	}
+	/* Big bento numerals (metrics, roadmap phases) */
+	--text-figure: clamp(2.25rem, 4vw, 3.5rem);
+	--text-figure--line-height: 1;
+	--text-figure--letter-spacing: -0.02em;
+	--text-figure--font-weight: 700;
 }
 
 @layer base {
@@ -178,7 +184,6 @@
 		-webkit-font-smoothing: antialiased;
 		text-rendering: optimizeLegibility;
 	}
-	/* Inter's optical sizing + Playfair at display sizes */
 	h1,
 	h2,
 	h3,
@@ -194,10 +199,37 @@
 }
 
 @layer utilities {
-	/* Small uppercase label above a heading — used by SectionHeading and the
-	   eyebrow slots on Hero/CTA/Vision/Timeline. */
+	/* Small uppercase label above a heading. Brand-colored with a square
+	   "circuit node" marker — SectionHeading renders the node itself. */
 	.eyebrow {
-		@apply text-eyebrow text-muted-foreground uppercase;
+		@apply text-eyebrow text-brand-quiet font-display uppercase;
+	}
+
+	/* Flat card — THE surface primitive of this design. 1px border, no shadow.
+	   Hover = border snaps to brand + surface tints. Nothing lifts or glows. */
+	.flat-card {
+		@apply bg-card border-border rounded-2xl border transition-colors duration-200;
+	}
+	.flat-card-hover {
+		@apply hover:border-brand-ring hover:bg-accent;
+	}
+
+	/* Blueprint grid — faint engineering-paper background for hero/CTA bands.
+	   Pure CSS, theme-aware, zero assets. */
+	.blueprint-grid {
+		background-image:
+			linear-gradient(to right, var(--border) 1px, transparent 1px),
+			linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+		background-size: 56px 56px;
+	}
+	/* Fades the grid out toward the edges so content stays the focus. */
+	.blueprint-fade {
+		mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+	}
+
+	/* Square circuit-node marker (the dot at the end of the logo's traces). */
+	.circuit-node {
+		@apply bg-brand inline-block size-2 rounded-[2px];
 	}
 }
 
@@ -220,8 +252,7 @@ html:not([data-aos-ready]) [data-aos] {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Reduced motion — global. Previously only CSSConfetti honoured this.
-   AOS is additionally disabled at init in BaseLayout.
+   Reduced motion — global. AOS is additionally disabled at init in BaseLayout.
    ───────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
 	*,

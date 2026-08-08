@@ -3,6 +3,7 @@ import { getContent } from "../../../content";
 import { DEFAULT_LANG } from "../../../lib/i18n";
 import logoImg from "../../../assets/logo.png";
 import { Mail } from "../common/icons";
+import CircuitNodes from "../common/CircuitNodes.astro";
 
 interface Props {
   lang?: string;
@@ -20,8 +21,12 @@ const productLinks = [
 ];
 ---
 
-<footer class="border-border bg-background border-t">
-  <div class="container mx-auto px-4 py-16 sm:px-6">
+<footer class="border-border bg-secondary relative overflow-hidden border-t">
+  <CircuitNodes
+    class="pointer-events-none absolute -top-6 -right-8 hidden w-64 opacity-25 md:block"
+  />
+
+  <div class="relative container mx-auto px-4 py-16 sm:px-6 sm:py-20">
     <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Brand -->
       <div class="lg:col-span-2">
@@ -37,7 +42,7 @@ const productLinks = [
             height="32"
             class="h-8 w-auto"
           />
-          <span class="text-base font-medium tracking-tight">
+          <span class="font-display text-base font-semibold tracking-tight">
             Ruang Cipta Digital
           </span>
         </a>
@@ -48,7 +53,8 @@ const productLinks = [
 
       <!-- Products -->
       <nav aria-labelledby="footer-products">
-        <h2 id="footer-products" class="eyebrow mb-5 block">
+        <h2 id="footer-products" class="eyebrow mb-5 flex items-center gap-2.5">
+          <span class="circuit-node" aria-hidden="true"></span>
           {nav.products}
         </h2>
         <ul class="space-y-3">
@@ -57,7 +63,7 @@ const productLinks = [
               <li>
                 <a
                   href={link.href}
-                  class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                  class="text-muted-foreground hover:text-brand-quiet text-sm transition-colors duration-200"
                 >
                   {link.label}
                 </a>
@@ -69,10 +75,13 @@ const productLinks = [
 
       <!-- Contact -->
       <div>
-        <h2 class="eyebrow mb-5 block">{nav.contact}</h2>
+        <h2 class="eyebrow mb-5 flex items-center gap-2.5">
+          <span class="circuit-node" aria-hidden="true"></span>
+          {nav.contact}
+        </h2>
         <a
           href={`mailto:${contactEmail}`}
-          class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
+          class="text-muted-foreground hover:text-brand-quiet inline-flex items-center gap-2 text-sm transition-colors duration-200"
         >
           <Mail class="size-4 shrink-0" aria-hidden="true" />
           {contactEmail}
@@ -80,10 +89,20 @@ const productLinks = [
       </div>
     </div>
 
-    <div class="border-border mt-14 border-t pt-8">
+    <!-- Thin bottom bar -->
+    <div
+      class="border-border mt-14 flex flex-col gap-3 border-t pt-8 sm:flex-row sm:items-center sm:justify-between"
+    >
       <p class="text-muted-foreground text-sm">
         {footer.copyright}
       </p>
+      <span
+        class="text-muted-foreground flex items-center gap-2.5 text-sm"
+        aria-hidden="true"
+      >
+        <span class="circuit-node"></span>
+        Ruang Cipta Digital
+      </span>
     </div>
   </div>
 </footer>

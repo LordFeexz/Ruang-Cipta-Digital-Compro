@@ -35,7 +35,7 @@
       <Button
         {...props}
         variant="ghost"
-        class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-full md:size-9"
+        class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-lg md:size-9"
       >
         <Globe class="size-[1.05rem]" aria-hidden="true" />
         <span class="sr-only">{label}</span>
@@ -44,7 +44,7 @@
   </DropdownMenu.Trigger>
   <DropdownMenu.Content
     align="end"
-    class="bg-popover border-border w-40 backdrop-blur-xl"
+    class="bg-popover border-border w-40 rounded-xl"
   >
     <DropdownMenu.Label
       class="text-eyebrow text-muted-foreground uppercase"

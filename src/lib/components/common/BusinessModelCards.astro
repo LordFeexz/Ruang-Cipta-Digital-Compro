@@ -3,6 +3,7 @@ import SectionWrapper from "./SectionWrapper.astro";
 import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
 import type { BusinessModelCard } from "../../../content/types";
+import { BarChart3, PieChart, TrendingUp, Zap } from "./icons";
 
 interface Props {
   models: BusinessModelCard[];
@@ -11,25 +12,36 @@ interface Props {
 }
 
 const { models, title, eyebrow } = Astro.props;
+
+// The content model carries only a title, so icons are assigned per slot —
+// varied chips read as a set without inventing new content strings.
+const chipIcons = [Zap, TrendingUp, BarChart3, PieChart];
 ---
 
 <SectionWrapper>
   <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
 
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
     {
-      models.map((model, index) => (
-        <GlowCard class="flex flex-col justify-between" delay={index * 80}>
-          {/* An index reads as a set; the previous version repeated one
-              Briefcase icon four times, which said nothing. */}
-          <span class="eyebrow text-brand-quiet" aria-hidden="true">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <h3 class="text-heading text-foreground mt-10 font-medium">
-            {model.title}
-          </h3>
-        </GlowCard>
-      ))
+      models.map((model, index) => {
+        const Icon = chipIcons[index % chipIcons.length];
+        return (
+          <GlowCard class="flex flex-col" delay={index * 80}>
+            <div class="mb-10 flex items-start justify-between">
+              <div class="bg-brand-soft text-brand flex size-12 items-center justify-center rounded-xl">
+                <Icon class="size-6" aria-hidden="true" />
+              </div>
+              <span
+                class="font-display text-eyebrow text-muted-foreground"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
+            <h3 class="text-heading text-foreground mt-auto">{model.title}</h3>
+          </GlowCard>
+        );
+      })
     }
   </div>
 </SectionWrapper>

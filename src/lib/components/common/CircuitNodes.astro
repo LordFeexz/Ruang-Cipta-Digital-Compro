@@ -1,0 +1,30 @@
+---
+/**
+ * Decorative circuit traces + nodes echoing the logo mark's tip.
+ * Flat, single-color (--color-circuit), aria-hidden. Place absolutely inside
+ * a relative container (hero corner, CTA band, footer edge) and size via
+ * the class prop, e.g. class="absolute -right-8 top-12 w-64 opacity-60".
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 240 160"
+  fill="none"
+  aria-hidden="true"
+>
+  <g stroke="var(--color-circuit)" stroke-width="2">
+    <path d="M0 40 H96 L128 72 H184" />
+    <path d="M0 80 H72 L104 112 H160" />
+    <path d="M24 0 V28 L56 60 V120" />
+    <rect x="184" y="66" width="12" height="12" rx="2" fill="var(--color-circuit)" stroke="none" />
+    <rect x="160" y="106" width="12" height="12" rx="2" fill="var(--color-circuit)" stroke="none" />
+    <rect x="50" y="120" width="12" height="12" rx="2" fill="var(--color-circuit)" stroke="none" />
+    <circle cx="190" cy="72" r="9" />
+    <circle cx="166" cy="112" r="9" />
+  </g>
+</svg>

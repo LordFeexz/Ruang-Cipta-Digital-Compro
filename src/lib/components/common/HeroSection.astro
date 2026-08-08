@@ -1,6 +1,6 @@
 ---
 import { Button } from "../ui/button";
-import AnimatedGradient from "./AnimatedGradient.svelte";
+import CircuitNodes from "./CircuitNodes.astro";
 import type { HeroContent } from "../../../content/types";
 import { ArrowRight } from "./icons";
 
@@ -22,12 +22,27 @@ const {
   primaryLink = "#products",
   secondaryLink = `mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`,
 } = Astro.props;
+
+// Accent the closing phrase of the headline in flat brand blue. The copy is a
+// plain bilingual string, so we split off the last two words — both the EN and
+// ID headlines end on the phrase that carries the point.
+const words = content.headline.trim().split(/\s+/);
+const accentCount = Math.min(2, Math.max(words.length - 1, 1));
+const lead = words.slice(0, words.length - accentCount).join(" ");
+const accent = words.slice(words.length - accentCount).join(" ");
 ---
 
 <section
-  class="relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
+  class="bg-background relative flex min-h-[88vh] flex-col justify-center overflow-hidden px-4 py-24 sm:px-6 sm:py-32"
 >
-  <AnimatedGradient client:load />
+  <!-- Engineering-paper ground + a single circuit trace: this band's entire
+       decoration budget. Flat, theme-aware, zero assets. -->
+  <div
+    class="blueprint-grid blueprint-fade absolute inset-0"
+    aria-hidden="true"
+  >
+  </div>
+  <CircuitNodes class="absolute top-16 -right-8 hidden w-64 opacity-50 lg:block" />
 
   <div
     class="relative z-10 container mx-auto max-w-4xl text-center"
@@ -36,15 +51,15 @@ const {
   >
     {
       eyebrow && (
-        <span class="eyebrow mb-8 inline-flex items-center gap-3">
-          <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
+        <span class="eyebrow mb-8 inline-flex items-center gap-2.5">
+          <span class="circuit-node" aria-hidden="true" />
           {eyebrow}
         </span>
       )
     }
 
-    <h1 class="font-display text-display text-foreground font-normal">
-      {content.headline}
+    <h1 class="font-display text-display text-foreground">
+      {lead ? `${lead} ` : ""}<span class="text-brand">{accent}</span>
     </h1>
 
     <p class="text-lede text-muted-foreground mx-auto mt-8 max-w-2xl">

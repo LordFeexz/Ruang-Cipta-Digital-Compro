@@ -9,22 +9,20 @@ interface Props {
 const { vision, eyebrow } = Astro.props;
 ---
 
-<SectionWrapper class="bg-card border-border border-y">
+<SectionWrapper class="bg-secondary border-border border-y">
   <figure class="mx-auto max-w-3xl text-center">
     {
       eyebrow && (
-        <figcaption class="eyebrow mb-8 inline-flex items-center gap-3">
-          <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
+        <figcaption class="eyebrow mb-8 inline-flex items-center gap-2.5">
+          <span class="circuit-node" aria-hidden="true" />
           {eyebrow}
         </figcaption>
       )
     }
-    <blockquote
-      class="font-display text-title text-foreground font-normal italic"
-    >
-      <span aria-hidden="true" class="text-brand not-italic">&ldquo;</span
-      >{vision}<span aria-hidden="true" class="text-brand not-italic"
-        >&rdquo;</span
+    <blockquote class="font-display text-title text-foreground">
+      <span aria-hidden="true" class="text-brand">&ldquo;</span>{vision}<span
+        aria-hidden="true"
+        class="text-brand">&rdquo;</span
       >
     </blockquote>
   </figure>

@@ -20,31 +20,33 @@
   $: measure = metrics.length <= 2 ? "max-w-xl" : "max-w-4xl";
 </script>
 
+<!-- Bento stat tiles: tight gaps, flat 1px borders, big brand numerals. -->
 <div
   class="mx-auto grid {measure} {columns} {variant === 'card'
-    ? 'gap-4 sm:gap-6'
+    ? 'gap-3 sm:gap-4'
     : 'gap-6 sm:gap-8'}"
 >
-  {#each metrics as metric, i}
+  {#each metrics as metric}
     <!-- Deliberately no `data-aos` here. AOS sets opacity:0 via its stylesheet
          and adds `aos-animate` to un-hide; when Svelte hydrates this island it
          reconciles the class attribute against its own template and drops that
          class, leaving the metrics permanently invisible. CountUp's own
          IntersectionObserver is the reveal for this component. -->
     <div
-      class="flex flex-col items-center justify-center text-center {variant ===
-      'card'
-        ? 'border-border bg-card rounded-2xl border p-6'
-        : ''}"
+      class="flex flex-col {variant === 'card'
+        ? 'flat-card items-start p-5 text-left sm:p-6'
+        : 'items-center text-center'}"
     >
       <div
-        class="text-foreground flex items-baseline text-2xl font-medium tracking-tight tabular-nums sm:text-3xl"
+        class="font-display text-figure text-brand flex items-baseline tabular-nums"
       >
         {#if metric.prefix}<span>{metric.prefix}</span>{/if}
         <CountUp value={metric.value} />
-        {#if metric.suffix}<span class="text-brand">{metric.suffix}</span>{/if}
+        {#if metric.suffix}<span>{metric.suffix}</span>{/if}
       </div>
-      <div class="text-muted-foreground mt-2 text-sm">
+      <div
+        class="text-eyebrow text-muted-foreground mt-3 uppercase"
+      >
         {metric.label}
       </div>
     </div>

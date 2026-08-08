@@ -12,29 +12,32 @@ interface Props {
 const { demo, eyebrow } = Astro.props;
 ---
 
-<SectionWrapper class="bg-card border-border border-y">
+<SectionWrapper class="bg-secondary border-border border-y">
   <SectionHeading title={demo.title} eyebrow={eyebrow} class="mb-14" />
 
   <div
     class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16"
   >
     <!-- UI mockup. Built entirely from surface tokens so it reads as a real
-         product window in both themes. -->
+         product window in both themes. Flat: 1px border, no shadow. -->
     <div class="order-2 lg:order-1 lg:col-span-7" data-aos="fade-up">
       <div
-        class="border-border bg-background relative aspect-16/10 overflow-hidden rounded-xl border shadow-xl"
+        class="border-border bg-background relative aspect-16/10 overflow-hidden rounded-2xl border"
         aria-hidden="true"
       >
-        <!-- Window chrome -->
+        <!-- Browser chrome bar: three flat border-colored dots + address slug -->
         <div
-          class="bg-muted border-border flex h-9 items-center gap-2 border-b px-4"
+          class="bg-secondary border-border flex h-9 items-center gap-2 border-b px-4"
         >
           <div class="flex gap-1.5">
-            <div class="bg-muted-foreground/30 size-2.5 rounded-full"></div>
-            <div class="bg-muted-foreground/30 size-2.5 rounded-full"></div>
-            <div class="bg-muted-foreground/30 size-2.5 rounded-full"></div>
+            <div class="bg-border size-2.5 rounded-full"></div>
+            <div class="bg-border size-2.5 rounded-full"></div>
+            <div class="bg-border size-2.5 rounded-full"></div>
           </div>
-          <div class="bg-background/80 mx-auto h-5 w-1/2 max-w-sm rounded-md"></div>
+          <div
+            class="border-border bg-background mx-auto h-5 w-1/2 max-w-sm rounded-md border"
+          >
+          </div>
         </div>
 
         <!-- Content -->
@@ -44,7 +47,7 @@ const { demo, eyebrow } = Astro.props;
             <div class="flex items-center gap-3">
               <div class="bg-muted h-5 w-14 rounded-md"></div>
               <div class="bg-muted h-5 w-14 rounded-md"></div>
-              <div class="bg-brand-soft size-7 rounded-full"></div>
+              <div class="bg-brand size-7 rounded-md"></div>
             </div>
           </div>
 
@@ -57,7 +60,7 @@ const { demo, eyebrow } = Astro.props;
               <div class="bg-muted h-7 w-full rounded-md"></div>
             </div>
 
-            <!-- Main grid -->
+            <!-- Main bento grid -->
             <div class="grid grow grid-cols-2 gap-3.5">
               <div
                 class="border-border bg-brand-soft col-span-2 h-28 rounded-xl border"
@@ -75,24 +78,24 @@ const { demo, eyebrow } = Astro.props;
       </div>
     </div>
 
-    <!-- Feature list -->
+    <!-- Feature checklist -->
     <ul class="order-1 space-y-1 lg:order-2 lg:col-span-5">
       {
         demo.features.map((feature, index) => (
           <li
-            class="hover:bg-accent flex items-start gap-4 rounded-xl p-4 transition-colors"
+            class="hover:bg-accent flex items-start gap-4 rounded-xl p-4 transition-colors duration-200"
             data-aos="fade-up"
             data-aos-delay={index * 80}
           >
             <span
-              class="bg-brand-soft text-brand mt-0.5 grid size-6 shrink-0 place-items-center rounded-full"
+              class="bg-brand-soft text-brand mt-0.5 grid size-6 shrink-0 place-items-center rounded-md"
               aria-hidden="true"
             >
               <Check class="size-3.5" />
             </span>
-            <h3 class="text-foreground text-base font-medium sm:text-lg">
+            <p class="text-foreground text-base font-medium sm:text-lg">
               {feature}
-            </h3>
+            </p>
           </li>
         ))
       }

@@ -43,7 +43,7 @@ const productUrl = import.meta.env.PUBLIC_CAREER_MATE_URL;
 >
   <HeroSection content={careerMate.hero} primaryLink={productUrl}>
     <div
-      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-3xl border p-8"
+      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-2xl border p-6 sm:p-8"
     >
       <MetricsRow
         metrics={careerMate.hero.metrics}
@@ -60,7 +60,7 @@ const productUrl = import.meta.env.PUBLIC_CAREER_MATE_URL;
     eyebrow={ui.marketOpportunity}
   />
 
-  <SectionWrapper class="bg-card border-border border-y">
+  <SectionWrapper class="bg-secondary border-border border-y">
     <TimelineSection
       steps={careerMate.solution}
       title={ui.howItWorks}

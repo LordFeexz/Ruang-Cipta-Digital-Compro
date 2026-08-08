@@ -14,10 +14,11 @@ interface Props {
 const { class: className = "", delay } = Astro.props;
 ---
 
+<!-- Historical name; since the flat redesign this is the plain bento card
+     primitive — 1px border, no shadow, hover snaps the border to brand. -->
 <div
   class={cn(
-    "group bg-card border-border relative h-full overflow-hidden rounded-2xl border p-6 transition-colors duration-200 sm:p-8",
-    "hover:border-brand-ring hover:bg-accent",
+    "group flat-card flat-card-hover relative h-full overflow-hidden p-6 sm:p-8",
     className,
   )}
   data-aos="fade-up"

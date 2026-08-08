@@ -3,6 +3,7 @@ import SectionWrapper from "./SectionWrapper.astro";
 import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
 import type { MissionCard } from "../../../content/types";
+import { cn } from "../../../lib/utils";
 import { Leaf, Lightbulb, Unlock, Zap } from "./icons";
 
 interface Props {
@@ -28,21 +29,40 @@ const getIcon = (name: string) => {
       return Lightbulb;
   }
 };
+
+// Bento spans: the first card is the feature cell, the last card widens to
+// close the grid — a full 2×3 mosaic for the canonical 4 missions.
+const isWide = (index: number) =>
+  index === 0 || index === missions.length - 1;
 ---
 
 <SectionWrapper>
-  {title && <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />}
+  {
+    title ? (
+      <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
+    ) : eyebrow ? (
+      <div class="mb-10 flex justify-center">
+        <span class="eyebrow flex items-center gap-2.5">
+          <span class="circuit-node" aria-hidden="true" />
+          {eyebrow}
+        </span>
+      </div>
+    ) : null
+  }
 
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
     {
       missions.map((mission, index) => {
         const Icon = getIcon(mission.icon);
         return (
-          <GlowCard delay={index * 80}>
-            <div class="bg-brand-soft text-brand mb-6 flex size-11 items-center justify-center rounded-xl">
-              <Icon class="size-5" aria-hidden="true" />
+          <GlowCard
+            delay={index * 80}
+            class={cn(isWide(index) && "sm:col-span-2 lg:col-span-2")}
+          >
+            <div class="bg-brand-soft text-brand mb-6 flex size-12 items-center justify-center rounded-xl">
+              <Icon class="size-6" aria-hidden="true" />
             </div>
-            <h3 class="text-heading text-foreground mb-3 font-medium">
+            <h3 class="font-display text-heading text-foreground mb-2">
               {mission.title}
             </h3>
             <p class="text-muted-foreground text-sm leading-relaxed">

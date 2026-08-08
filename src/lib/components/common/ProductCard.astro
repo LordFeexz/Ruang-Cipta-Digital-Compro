@@ -2,9 +2,8 @@
 import SectionWrapper from "./SectionWrapper.astro";
 import SectionHeading from "./SectionHeading.astro";
 import GlowCard from "./GlowCard.astro";
-import { Button } from "../ui/button";
 import type { ProductCardContent } from "../../../content/types";
-import { ArrowUpRight } from "./icons";
+import { ArrowUpRight, BarChart3, PieChart, TrendingUp, Zap } from "./icons";
 
 interface Props {
   products: ProductCardContent[];
@@ -14,47 +13,64 @@ interface Props {
 }
 
 const { products, title, eyebrow, badgeLabel } = Astro.props;
+
+// Products carry no icon in the content model, so assign one per slot to keep
+// the icon chips varied without inventing new content strings.
+const chipIcons = [Zap, BarChart3, TrendingUp, PieChart];
 ---
 
 <SectionWrapper id="products">
   <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
 
-  <div class="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2">
+  <!-- Bento: tight gaps, first product is the feature cell (2 cols on lg). -->
+  <div class="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-3">
     {
-      products.map((product, index) => (
-        <GlowCard class="flex h-full flex-col" delay={index * 80}>
-          <div class="grow">
-            <span class="eyebrow text-brand-quiet mb-6 block">
-              {badgeLabel}
-            </span>
-            <h3 class="font-display text-foreground mb-4 text-2xl font-normal sm:text-3xl">
-              {product.name}
-            </h3>
-            <p class="text-foreground mb-4 text-base sm:text-lg">
-              {product.description}
-            </p>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              {product.valueProp}
-            </p>
-          </div>
+      products.map((product, index) => {
+        const Icon = chipIcons[index % chipIcons.length];
+        return (
+          <GlowCard
+            class={`flex h-full flex-col ${index === 0 ? "lg:col-span-2" : ""}`}
+            delay={index * 80}
+          >
+            <div class="grow">
+              <div class="mb-8 flex items-start justify-between gap-4">
+                <div class="bg-brand-soft text-brand flex size-12 items-center justify-center rounded-xl">
+                  <Icon class="size-6" aria-hidden="true" />
+                </div>
+                <span class="eyebrow flex items-center gap-2">
+                  <span class="circuit-node" aria-hidden="true"></span>
+                  {badgeLabel}
+                </span>
+              </div>
 
-          <div class="border-border mt-8 border-t pt-6">
-            <Button
-              href={product.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="ghost"
-              class="hover:bg-accent -mx-2 h-11 w-full justify-between rounded-lg px-2"
-            >
-              {product.cta}
-              <ArrowUpRight
-                class="size-4 transition-transform group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
-                aria-hidden="true"
-              />
-            </Button>
-          </div>
-        </GlowCard>
-      ))
+              <h3 class="font-display text-heading text-foreground mb-3">
+                {product.name}
+              </h3>
+              <p class="text-foreground mb-3 text-base">
+                {product.description}
+              </p>
+              <p class="text-muted-foreground text-sm leading-relaxed">
+                {product.valueProp}
+              </p>
+            </div>
+
+            <div class="border-border mt-8 border-t pt-5">
+              <a
+                href={product.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group/link text-foreground hover:text-brand-quiet inline-flex min-h-11 w-full cursor-pointer items-center justify-between rounded-lg font-medium transition-colors duration-200"
+              >
+                {product.cta}
+                <ArrowUpRight
+                  class="text-brand size-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </a>
+            </div>
+          </GlowCard>
+        );
+      })
     }
   </div>
 </SectionWrapper>

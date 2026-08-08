@@ -26,7 +26,7 @@
   aria-label={isDark ? labelLight : labelDark}
   aria-pressed={isDark}
   title={isDark ? labelLight : labelDark}
-  class="text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:outline-ring relative grid size-11 cursor-pointer place-items-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 md:size-9"
+  class="text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:outline-ring relative grid size-11 cursor-pointer place-items-center rounded-lg transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 md:size-9"
 >
   <!-- Both icons are rendered and cross-faded so the button never changes size. -->
   <Sun

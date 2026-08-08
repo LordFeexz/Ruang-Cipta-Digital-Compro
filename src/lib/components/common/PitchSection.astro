@@ -2,7 +2,6 @@
 import SectionWrapper from "./SectionWrapper.astro";
 import SectionHeading from "./SectionHeading.astro";
 import type { PitchContent } from "../../../content/types";
-import { cn } from "../../../lib/utils";
 
 interface Props {
   content: PitchContent;
@@ -12,21 +11,40 @@ interface Props {
 }
 
 const { content, align = "center", eyebrow, class: className } = Astro.props;
+
+// Big-statement typography: the first paragraph is the statement, the rest
+// are supporting copy.
+const [statement, ...rest] = content.description;
 ---
 
 <SectionWrapper class={className}>
-  <SectionHeading title={content.title} eyebrow={eyebrow} align={align} />
+  {
+    align === "left" ? (
+      <div class="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-20">
+        <SectionHeading title={content.title} eyebrow={eyebrow} align="left" />
 
-  <div
-    class={cn(
-      "mt-8 max-w-3xl space-y-5",
-      align === "center" && "mx-auto text-center",
-    )}
-  >
-    {
-      content.description.map((paragraph) => (
-        <p class="text-lede text-muted-foreground">{paragraph}</p>
-      ))
-    }
-  </div>
+        <div class="space-y-5 lg:pt-2">
+          {statement && (
+            <p class="font-display text-heading text-foreground">{statement}</p>
+          )}
+          {rest.map((paragraph) => (
+            <p class="text-lede text-muted-foreground">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="mx-auto max-w-3xl">
+        <SectionHeading title={content.title} eyebrow={eyebrow} align="center" />
+
+        <div class="mt-8 space-y-5 text-center">
+          {statement && (
+            <p class="font-display text-heading text-foreground">{statement}</p>
+          )}
+          {rest.map((paragraph) => (
+            <p class="text-lede text-muted-foreground">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    )
+  }
 </SectionWrapper>

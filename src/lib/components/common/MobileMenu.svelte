@@ -45,7 +45,7 @@
   onclick={toggleMenu}
   aria-label={navItems.openMenu}
   aria-expanded={isOpen}
-  class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-full md:hidden"
+  class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-lg md:hidden"
 >
   <Menu class="size-5" aria-hidden="true" />
 </Button>
@@ -62,7 +62,7 @@
       <div class="flex h-16 items-center justify-between">
         <a href={`/${lang}`} onclick={close} class="flex items-center gap-3">
           <img src={logoImg.src} alt="" width="32" height="32" class="h-8 w-auto" />
-          <span class="text-base font-medium tracking-tight">
+          <span class="font-display text-base font-semibold tracking-tight">
             Ruang Cipta Digital
           </span>
         </a>
@@ -70,21 +70,24 @@
           variant="ghost"
           onclick={close}
           aria-label={navItems.closeMenu}
-          class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-full"
+          class="text-muted-foreground hover:text-foreground hover:bg-accent grid size-11 place-items-center rounded-lg"
         >
           <X class="size-5" aria-hidden="true" />
         </Button>
       </div>
 
-      <nav class="mt-10 flex flex-col gap-2" aria-label={navItems.products}>
+      <nav class="mt-10 flex flex-col gap-3" aria-label={navItems.products}>
         {#each links as link (link.href)}
           <a
             href={link.href}
             onclick={close}
-            class="border-border hover:bg-accent hover:border-brand-ring font-display flex items-center justify-between rounded-xl border px-5 py-5 text-2xl font-normal transition-colors"
+            class="flat-card flat-card-hover font-display text-heading group flex items-center justify-between px-5 py-5"
           >
             <span>{navItems[link.key]}</span>
-            <ChevronRight class="text-muted-foreground size-5" aria-hidden="true" />
+            <ChevronRight
+              class="text-muted-foreground group-hover:text-brand size-5 transition-transform duration-200 group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
           </a>
         {/each}
       </nav>
@@ -97,7 +100,7 @@
           href={`mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL}`}
           onclick={close}
           variant="brand"
-          class="h-11 rounded-full px-6"
+          class="h-11 gap-2 px-6"
         >
           {navItems.contact}
         </Button>

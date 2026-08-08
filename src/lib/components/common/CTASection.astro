@@ -1,6 +1,6 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
-import { Button } from "../ui/button";
+import CircuitNodes from "./CircuitNodes.astro";
 
 import type { CTASectionContent } from "../../../content/types";
 import { ArrowRight } from "./icons";
@@ -22,28 +22,35 @@ const {
 
 <SectionWrapper>
   <div
-    class="border-border bg-card relative mx-auto max-w-4xl overflow-hidden rounded-3xl border px-6 py-16 text-center sm:px-12 sm:py-20"
+    class="bg-foreground relative mx-auto max-w-5xl overflow-hidden rounded-3xl px-6 py-16 text-center sm:px-12 sm:py-24"
     data-aos="fade-up"
   >
-    <!-- Single soft brand wash, replacing the three stacked glow layers -->
+    <!-- Faint engineering-paper grid, fading toward the edges -->
     <div
-      class="bg-brand/10 pointer-events-none absolute -top-32 left-1/2 size-80 -translate-x-1/2 rounded-full blur-[100px]"
+      class="blueprint-grid blueprint-fade pointer-events-none absolute inset-0 opacity-20"
       aria-hidden="true"
     >
     </div>
 
+    <CircuitNodes
+      class="pointer-events-none absolute -right-8 -bottom-10 w-64 opacity-40"
+    />
+
     <div class="relative z-10">
       {
         eyebrow && (
-          <span class="eyebrow mb-6 inline-flex items-center gap-3">
-            <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
+          <span class="text-eyebrow text-background/70 font-display mb-6 inline-flex items-center gap-2.5 uppercase">
+            <span
+              class="bg-circuit inline-block size-2 rounded-[2px]"
+              aria-hidden="true"
+            />
             {eyebrow}
           </span>
         )
       }
 
       <h2
-        class="font-display text-title text-foreground mx-auto max-w-2xl font-normal"
+        class="font-display text-display text-background mx-auto max-w-3xl"
       >
         {content.title}
       </h2>
@@ -51,29 +58,25 @@ const {
       <div
         class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
       >
-        <Button
+        <a
           href={primaryLink}
-          variant="brand"
-          size="xl"
-          class="group w-full sm:w-auto"
+          class="group bg-background text-foreground hover:bg-secondary inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-6 font-medium transition-colors duration-200 sm:w-auto"
         >
           {content.button1}
           <ArrowRight
             class="size-4 transition-transform group-hover:translate-x-0.5"
             aria-hidden="true"
           />
-        </Button>
+        </a>
 
         {
           content.button2 && (
-            <Button
+            <a
               href={secondaryLink}
-              variant="brandGhost"
-              size="xl"
-              class="w-full sm:w-auto"
+              class="border-background/25 text-background hover:border-background/50 hover:bg-background/10 inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border bg-transparent px-6 font-medium transition-colors duration-200 sm:w-auto"
             >
               {content.button2}
-            </Button>
+            </a>
           )
         }
       </div>

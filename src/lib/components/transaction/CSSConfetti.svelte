@@ -24,9 +24,9 @@
           --c-left: {Math.random() * 100}%;
           --c-color: {[
           'var(--brand)',
-          'var(--brand-quiet)',
+          'var(--brand-bright)',
+          'var(--circuit)',
           'var(--success)',
-          'var(--muted-foreground)',
         ][Math.floor(Math.random() * 4)]};
           --c-delay: {Math.random() * 0.5}s;
           --c-duration: {1.5 + Math.random() * 1.5}s;

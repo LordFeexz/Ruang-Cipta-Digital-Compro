@@ -43,7 +43,7 @@ const productUrl = import.meta.env.PUBLIC_DIGITOOL_URL;
 >
   <HeroSection content={digitool.hero} primaryLink={productUrl}>
     <div
-      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-3xl border p-8"
+      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-2xl border p-6 sm:p-8"
     >
       <MetricsRow
         metrics={digitool.hero.metrics}
@@ -57,7 +57,7 @@ const productUrl = import.meta.env.PUBLIC_DIGITOOL_URL;
 
   <MarketOpportunity content={digitool.market} eyebrow={ui.marketOpportunity} />
 
-  <SectionWrapper class="bg-card border-border border-y">
+  <SectionWrapper class="bg-secondary border-border border-y">
     <TimelineSection
       steps={digitool.solution}
       title={ui.howItWorks}

@@ -1,7 +1,7 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
+import SectionHeading from "./SectionHeading.astro";
 import type { PitchContent } from "../../../content/types";
-import { Minus } from "./icons";
 
 interface Props {
   content: PitchContent;
@@ -9,6 +9,9 @@ interface Props {
 }
 
 const { content, eyebrow } = Astro.props;
+
+// description[0] is the framing sentence; the rest are the enumerated pains.
+const [intro, ...items] = content.description;
 ---
 
 <SectionWrapper>
@@ -16,40 +19,34 @@ const { content, eyebrow } = Astro.props;
     class="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20"
   >
     <div class="lg:sticky lg:top-32 lg:self-start">
-      {
-        eyebrow && (
-          <span class="eyebrow mb-4 flex items-center gap-3">
-            <span class="bg-brand/60 h-px w-6" aria-hidden="true" />
-            {eyebrow}
-          </span>
-        )
-      }
-      <h2 class="font-display text-title text-foreground font-normal">
-        {content.title}
-      </h2>
-      <p class="text-lede text-muted-foreground mt-5">
-        {content.description[0]}
-      </p>
+      <SectionHeading
+        title={content.title}
+        eyebrow={eyebrow}
+        lede={intro}
+        align="left"
+      />
     </div>
 
-    <ul class="border-border divide-border divide-y border-t border-b">
+    <ol class="border-border divide-border divide-y border-y">
       {
-        content.description.slice(1).map((item, index) => (
+        items.map((item, index) => (
           <li
-            class="flex items-start gap-4 py-6"
+            class="flex items-center gap-6 py-6"
             data-aos="fade-up"
             data-aos-delay={index * 80}
           >
-            <Minus
-              class="text-brand mt-2 size-4 shrink-0"
+            <span
+              class="font-display text-figure text-brand shrink-0"
               aria-hidden="true"
-            />
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
             <p class="text-foreground text-base leading-relaxed sm:text-lg">
               {item}
             </p>
           </li>
         ))
       }
-    </ul>
+    </ol>
   </div>
 </SectionWrapper>

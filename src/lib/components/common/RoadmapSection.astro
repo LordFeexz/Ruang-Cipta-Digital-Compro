@@ -1,7 +1,7 @@
 ---
 import SectionWrapper from "./SectionWrapper.astro";
 import SectionHeading from "./SectionHeading.astro";
-import GlowCard from "./GlowCard.astro";
+import { cn } from "../../../lib/utils";
 import type { RoadmapPhase } from "../../../content/types";
 
 interface Props {
@@ -11,33 +11,51 @@ interface Props {
 }
 
 const { roadmap, title, eyebrow } = Astro.props;
+
+/** The roadmap always starts at the phase being executed now. */
+const currentIndex = 0;
 ---
 
 <SectionWrapper>
   <SectionHeading title={title} eyebrow={eyebrow} class="mb-14" />
 
-  <ol class="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <ol
+    class="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4"
+  >
     {
-      roadmap.map((item, index) => (
-        <li class="relative">
-          {/* Connector between phases on desktop */}
-          {index < roadmap.length - 1 && (
+      roadmap.map((item, index) => {
+        const isCurrent = index === currentIndex;
+        return (
+          <li class="h-full">
             <div
-              class="bg-border absolute top-1/2 right-[calc(-50%+2rem)] left-[calc(50%+2rem)] z-0 hidden h-px -translate-y-1/2 lg:block"
-              aria-hidden="true"
-            />
-          )}
+              class={cn(
+                "bg-card flex h-full flex-col items-start rounded-2xl border p-6 transition-colors duration-200 sm:p-8",
+                isCurrent
+                  ? "border-brand"
+                  : "border-border hover:border-brand-ring hover:bg-accent",
+              )}
+              data-aos="fade-up"
+              data-aos-duration="500"
+              data-aos-delay={index * 80}
+            >
+              <span class="font-display text-figure text-brand" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
 
-          <GlowCard class="relative z-10" delay={index * 80}>
-            <span class="eyebrow text-brand-quiet mb-4 block">
-              {item.phase}
-            </span>
-            <h3 class="text-heading text-foreground font-medium">
-              {item.title}
-            </h3>
-          </GlowCard>
-        </li>
-      ))
+              {isCurrent ? (
+                <span class="bg-brand-soft text-brand-quiet text-eyebrow font-display mt-5 inline-flex items-center gap-2 rounded-md px-2.5 py-1.5 uppercase">
+                  <span class="circuit-node size-1.5" aria-hidden="true" />
+                  {item.phase}
+                </span>
+              ) : (
+                <span class="eyebrow mt-5 block">{item.phase}</span>
+              )}
+
+              <h3 class="text-heading text-foreground mt-3">{item.title}</h3>
+            </div>
+          </li>
+        );
+      })
     }
   </ol>
 </SectionWrapper>
