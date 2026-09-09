@@ -7,7 +7,7 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
     const { order_id, status_code, gross_amount, signature_key, transaction_status } = body;
 
-    const APPLY_MATE_URL = import.meta.env.PUBLIC_CAREER_MATE_URL || "https://career-mate.site";
+    const APPLY_MATE_URL = import.meta.env.PUBLIC_CAREER_MATE_URL || "https://api.role-mate.com";
     const DIGITOOL_URL = import.meta.env.PUBLIC_DIGITOOL_URL || "https://dgtool.my.id";
     const BLOG_PRESS_URL = import.meta.env.PUBLIC_BLOG_PRESS_URL || "http://localhost:3002"; // Fallback
 
@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     let targetUrl = null;
     if (order_id?.startsWith("AM")) {
-      targetUrl = `${APPLY_MATE_URL}/api/transaction/notify`;
+      targetUrl = `${APPLY_MATE_URL}/transaction/notify`;
     } else if (order_id?.startsWith("BP")) {
       targetUrl = `${BLOG_PRESS_URL}/api/billing/notification`;
     } else if (order_id?.startsWith("DGTL")) {
