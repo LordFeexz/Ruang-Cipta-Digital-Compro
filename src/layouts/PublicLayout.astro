@@ -1,0 +1,10 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import type { PageProps } from "../lib/interfaces/component";
+import "../styles/public.css";
+
+interface Props extends PageProps {}
+---
+<BaseLayout {...Astro.props} publicSite>
+  <slot />
+</BaseLayout>

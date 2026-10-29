@@ -1,0 +1,29 @@
+/* Public presentation only. Portaled public dialogs carry the same class.
+   Existing global tokens and admin surfaces are left intact. */
+.rcd-public {
+  color-scheme: dark;
+  --background: #080c14;
+  --foreground: #edf3fa;
+  --card: #0d1826;
+  --card-foreground: #edf3fa;
+  --popover: #101c2a;
+  --popover-foreground: #edf3fa;
+  --primary: #1675c4;
+  --primary-foreground: #ffffff;
+  --secondary: #122238;
+  --secondary-foreground: #c2d9ee;
+  --muted: #142538;
+  --muted-foreground: #a0b1c6;
+  --accent: #173754;
+  --accent-foreground: #edf3fa;
+  --border: #263b53;
+  --input: #34506d;
+  --ring: #59b9ff;
+  --brand: #1675c4;
+  --brand-hover: #1b85da;
+  --brand-bright: #59b9ff;
+  --brand-soft: #102c49;
+  --brand-ring: #4585b9;
+  --brand-on: #ffffff;
+  --brand-quiet: #abd9ff;
+}

@@ -17,7 +17,7 @@
 
 {#if showConfetti}
   <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden" aria-hidden="true">
-    {#each Array(32) as _, i}
+    {#each Array(32) as _, i (i)}
       <div
         class="confetti-piece"
         style="

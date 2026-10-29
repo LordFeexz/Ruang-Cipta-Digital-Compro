@@ -1,0 +1,69 @@
+---
+import { Button } from "../ui/button";
+import SectionLabel from "./SectionLabel.astro";
+import FeatureIllustration from "./FeatureIllustration.astro";
+import type { PublicProduct } from "./content";
+import type { CareerMateContent, DigiToolContent } from "../../../content/types";
+import { getLocalizedPath } from "../../i18n";
+interface Props {
+  product: PublicProduct;
+  otherProduct?: PublicProduct;
+  details: CareerMateContent | DigiToolContent;
+  lang: string;
+}
+const { product, otherProduct, details, lang } = Astro.props;
+const digitool = product.slug === "digitool";
+const journey = digitool
+  ? ["Temukan alat", "Bandingkan pilihan", "Evaluasi sebelum menggunakan"]
+  : ["Jelajahi pekerjaan", "Periksa peluang", "Siapkan langkah berikutnya"];
+---
+<article class="mx-auto max-w-[780px] px-6 pt-8 pb-12 sm:pt-14 sm:pb-20">
+  <a href={getLocalizedPath(lang, "products")} class="mb-6 inline-flex min-h-11 items-center gap-2 rounded text-sm text-muted-foreground hover:text-foreground"><span aria-hidden="true">←</span> Semua produk</a>
+  <div class="grid min-w-0 grid-cols-1 items-center gap-6 min-[480px]:grid-cols-[minmax(0,1fr)_135px] sm:grid-cols-[minmax(0,1fr)_190px]">
+    <div class="min-w-0">
+      <div class="mb-6 flex items-center gap-3">
+        <div class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-card">
+          <img src={product.logo} alt={"Logo resmi " + product.name} width="64" height="64" class:list={["size-full object-contain", digitool && "p-2"]} />
+        </div>
+        <p class="text-[10px] leading-relaxed tracking-[0.14em] text-muted-foreground uppercase">{product.name} / Produk RCD</p>
+      </div>
+      <h1 class="text-[36px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">{product.headline}</h1>
+      <p class="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground">{product.summary}</p>
+      <div class="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <Button href={product.website} target="_blank" rel="noopener noreferrer" class="min-h-11 gap-3 px-4">{product.cta}<span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></Button>
+        {otherProduct && <a href={otherProduct.href} class="inline-flex min-h-11 items-center gap-2 rounded text-sm text-brand-quiet">Kenali {otherProduct.name}<span aria-hidden="true">→</span></a>}
+      </div>
+    </div>
+    <img src={product.mascot} alt={"Maskot asli " + product.name + " menyapa"} width="400" height="460" class="mx-auto h-auto w-[140px] max-w-full object-contain min-[480px]:w-full" />
+  </div>
+  <FeatureIllustration digitool={digitool} />
+  <section class="border-t border-border py-9 sm:py-10" aria-labelledby="product-features">
+    <SectionLabel text={digitool ? "UNTUK PROFESIONAL, BISNIS & KREATOR" : "UNTUK PENCARI KERJA"} />
+    <h2 id="product-features" class="text-[28px] leading-tight font-semibold tracking-tight">{digitool ? "Resource untuk ide Anda." : "Persiapan yang lebih terarah."}</h2>
+    <p class="mt-5 text-base leading-relaxed text-muted-foreground">{product.description} {product.valueProp}</p>
+    <div class="mt-8 grid gap-x-8 sm:grid-cols-2">
+      {details.solution.map((feature, index) => (
+        <div class="border-t border-border py-6">
+          <span class="font-mono text-xs text-brand-quiet">{"0" + (index + 1)}</span>
+          <h3 class="mt-3 text-lg font-medium">{feature.title}</h3>
+          <p class="mt-2 text-base leading-relaxed text-muted-foreground">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+    <ul class="mt-4 flex flex-wrap gap-2" aria-label="Fitur produk">
+      {details.demo.features.map((feature) => <li class="rounded-md border border-border bg-card px-3 py-2 text-xs text-secondary-foreground">{feature}</li>)}
+    </ul>
+  </section>
+  <section class="border-t border-border py-9 sm:py-10" aria-labelledby="getting-started">
+    <h2 id="getting-started" class="mb-5 text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">Mulai dari sini</h2>
+    <ol class="grid gap-3 sm:grid-cols-3">
+      {journey.map((step, index) => <li class="rounded-md border border-border bg-secondary px-4 py-4 text-sm leading-relaxed text-secondary-foreground"><span class="mr-2 text-brand-quiet">{"0" + (index + 1)} ·</span>{step}</li>)}
+    </ol>
+    <p class="mt-5 text-sm leading-relaxed text-muted-foreground">Jelajahi {product.name} untuk mengikuti langkah dan melihat informasi produk selengkapnya.</p>
+  </section>
+  <section class="flex flex-col items-start justify-between gap-5 rounded-xl border border-brand-ring/60 bg-brand-soft px-6 py-7 sm:flex-row sm:items-center">
+    <h2 class="text-2xl leading-snug font-semibold tracking-tight">{digitool ? "Temukan tools berikutnya." : "Jelajahi peluang Anda."}</h2>
+    <Button href={product.website} target="_blank" rel="noopener noreferrer" class="min-h-11 gap-3 px-4">Kunjungi {product.name}<span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></Button>
+  </section>
+  <p class="mt-5 text-xs leading-relaxed text-muted-foreground">Informasi {digitool ? "produk" : "fitur"}: <a href={product.website} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-1 rounded underline decoration-border underline-offset-4 hover:text-foreground">{digitool ? "dgtool.my.id" : "role-mate.com"} <span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></a></p>
+</article>

@@ -1,21 +1,9 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PublicLayout from "../../layouts/PublicLayout.astro";
 import { getContent } from "../../content";
 import { LANGS, LANG } from "../../lib/i18n";
-
-import HeroSection from "../../lib/components/common/HeroSection.astro";
-import ProblemSection from "../../lib/components/common/ProblemSection.astro";
-import MarketOpportunity from "../../lib/components/common/MarketOpportunity.astro";
-import TimelineSection from "../../lib/components/common/TimelineSection.svelte";
-import ProductDemo from "../../lib/components/common/ProductDemo.astro";
-import MetricsRow from "../../lib/components/common/MetricsRow.svelte";
-import BusinessModelCards from "../../lib/components/common/BusinessModelCards.astro";
-import ComparisonTable from "../../lib/components/common/ComparisonTable.astro";
-import RoadmapSection from "../../lib/components/common/RoadmapSection.astro";
-import VisionSection from "../../lib/components/common/VisionSection.astro";
-import CTASection from "../../lib/components/common/CTASection.astro";
-import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
-import SectionHeading from "../../lib/components/common/SectionHeading.astro";
+import ProductIntroduction from "../../lib/components/public/ProductIntroduction.astro";
+import { getPublicProducts } from "../../lib/components/public/content";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
@@ -25,12 +13,13 @@ export const prerender = true;
 
 const { lang } = Astro.params as { lang: LANG };
 const content = getContent(lang);
-const { digitool, seo, ui } = content;
-
-const productUrl = import.meta.env.PUBLIC_DIGITOOL_URL;
+const { seo } = content;
+const products = getPublicProducts(content, lang);
+const product = products.find((item) => item.slug === "digitool")!;
+const otherProduct = products.find((item) => item.slug !== product.slug);
 ---
 
-<BaseLayout 
+<PublicLayout
   lang={lang}
   title={seo.digitool.title}
   description={seo.digitool.description}
@@ -41,58 +30,5 @@ const productUrl = import.meta.env.PUBLIC_DIGITOOL_URL;
     type: "website"
   }}
 >
-  <HeroSection content={digitool.hero} primaryLink={productUrl}>
-    <div
-      class="border-border bg-card mx-auto mt-4 max-w-4xl rounded-2xl border p-6 sm:p-8"
-    >
-      <MetricsRow
-        metrics={digitool.hero.metrics}
-        variant="plain"
-        client:visible
-      />
-    </div>
-  </HeroSection>
-
-  <ProblemSection content={digitool.problem} eyebrow={ui.theChallenge} />
-
-  <MarketOpportunity content={digitool.market} eyebrow={ui.marketOpportunity} />
-
-  <SectionWrapper class="bg-secondary border-border border-y">
-    <TimelineSection
-      steps={digitool.solution}
-      title={ui.howItWorks}
-      stepLabel={ui.step}
-      client:visible
-    />
-  </SectionWrapper>
-
-  <ProductDemo demo={digitool.demo} eyebrow={ui.productShowcase} />
-
-  <SectionWrapper>
-    <SectionHeading title={ui.traction} class="mb-14" />
-    <MetricsRow metrics={digitool.traction} client:visible />
-  </SectionWrapper>
-
-  <BusinessModelCards models={digitool.businessModel} title={ui.businessModel} />
-
-  <ComparisonTable
-    data={digitool.advantage}
-    title={ui.competitiveAdvantage}
-    lede={ui.competitiveAdvantageLede}
-    headings={{
-      feature: ui.tableFeature,
-      product: ui.tableOurProduct,
-      traditional: ui.tableTraditional,
-    }}
-  />
-
-  <RoadmapSection roadmap={digitool.roadmap} title={ui.productRoadmap} />
-
-  <VisionSection vision={digitool.futureVision} eyebrow={ui.ourVision} />
-
-  <CTASection
-    content={digitool.cta}
-    primaryLink={productUrl}
-    eyebrow={ui.getStarted}
-  />
-</BaseLayout>
+  <ProductIntroduction product={product} otherProduct={otherProduct} details={content.digitool} lang={lang} />
+</PublicLayout>

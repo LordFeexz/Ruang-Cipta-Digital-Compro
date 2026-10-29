@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PublicLayout from "../../../layouts/PublicLayout.astro";
 import { LANGS, LANG } from "../../../lib/i18n";
 import { getContent } from "../../../content";
 import TransactionFinishPage from "../../../lib/components/transaction/TransactionFinishPage.svelte";
@@ -14,7 +14,7 @@ const { lang } = Astro.params as { lang: LANG };
 const content = getContent(lang);
 ---
 
-<BaseLayout
+<PublicLayout
   lang={lang}
   title={content.transactionFinish.pageTitle}
   robots={{ index: false, follow: false }}
@@ -22,5 +22,9 @@ const content = getContent(lang);
   <TransactionFinishPage
     client:only="svelte"
     content={content.transactionFinish}
-  />
-</BaseLayout>
+  >
+    <div slot="fallback" class="mx-auto max-w-[780px] px-6 py-16">
+      <p role="status" class="rounded-xl border border-border bg-card p-6 text-base text-muted-foreground">Memuat halaman transaksi…</p>
+    </div>
+  </TransactionFinishPage>
+</PublicLayout>

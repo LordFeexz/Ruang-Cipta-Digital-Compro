@@ -1,0 +1,23 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import { getContent } from "../../content";
+import { LANGS, LANG } from "../../lib/i18n";
+import SectionLabel from "../../lib/components/public/SectionLabel.astro";
+import ProductCatalog from "../../lib/components/public/ProductCatalog.svelte";
+import { getPublicProducts } from "../../lib/components/public/content";
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+export const prerender = true;
+const { lang } = Astro.params as { lang: LANG };
+const products = getPublicProducts(getContent(lang), lang);
+---
+<PublicLayout lang={lang} title="Produk & Karya | Ruang Cipta Digital" description="Jelajahi aplikasi dan karya yang dikembangkan Ruang Cipta Digital.">
+  <section class="mx-auto max-w-[780px] px-6 pt-10 pb-16 sm:pt-16 sm:pb-24">
+    <SectionLabel text="KARYA / SELECTED WORK" />
+    <h1 class="text-[38px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">Karya yang kami bangun.</h1>
+    <p class="mt-6 text-lg leading-relaxed text-muted-foreground">Aplikasi, packages, dan ide yang menjadi kode.</p>
+    <ProductCatalog products={products} client:load />
+    <p class="mt-7 text-sm leading-relaxed text-muted-foreground">Sebuah arsip karya yang terus bertumbuh.</p>
+  </section>
+</PublicLayout>

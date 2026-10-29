@@ -1,0 +1,17 @@
+---
+import { contactEmail } from "./content";
+import { getLocalizedPath } from "../../i18n";
+interface Props { lang: string; }
+const { lang } = Astro.props;
+---
+<footer class="mt-10 border-t border-border/60 px-6 py-8 text-sm text-muted-foreground sm:px-10">
+  <div class="mx-auto flex max-w-[1440px] flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-xs">© 2026 Ruang Cipta Digital</p>
+    <nav aria-label="Tautan footer" class="flex flex-wrap gap-x-6 gap-y-1">
+      <a href={"mailto:" + contactEmail} class="inline-flex min-h-11 items-center gap-2 text-xs hover:text-foreground">email <span aria-hidden="true">↗</span></a>
+      <a href="https://role-mate.com/id" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 text-xs hover:text-foreground">role mate <span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></a>
+      <a href="https://dgtool.my.id" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 text-xs hover:text-foreground">digitool <span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></a>
+      <a href={getLocalizedPath(lang, "contact")} class="inline-flex min-h-11 items-center text-xs hover:text-foreground">Kontak</a>
+    </nav>
+  </div>
+</footer>

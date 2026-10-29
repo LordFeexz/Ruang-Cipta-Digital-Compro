@@ -8,8 +8,12 @@ import Navbar from "../lib/components/layouts/Navbar.astro";
 import Footer from "../lib/components/layouts/Footer.astro";
 import logoImg from "../assets/logo.png";
 import appleTouchIcon from "../assets/logo.png";
+import PublicHeader from "../lib/components/public/PublicHeader.svelte";
+import PublicFooter from "../lib/components/public/PublicFooter.astro";
 
-interface Props extends PageProps {}
+interface Props extends PageProps {
+  publicSite?: boolean;
+}
 
 const {
   lang = DEFAULT_LANG,
@@ -20,6 +24,7 @@ const {
   twitter,
   description,
   schemas = [],
+  publicSite = false,
 } = Astro.props;
 
 const baseUrl = import.meta.env.PUBLIC_DOMAIN || "http://localhost:4321";
@@ -56,8 +61,14 @@ const { nav } = getContent(lang);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
+    {publicSite ? (
+      <link rel="icon" href="/brand/rcd-logo.png" type="image/png" />
+    ) : (
+      <>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
+      </>
+    )}
     <meta name="generator" content={Astro.generator} />
     <script>
       // Polyfills — processed by Vite/Astro bundler, client-side only.
@@ -180,7 +191,10 @@ const { nav } = getContent(lang);
     }
   </head>
   <body
-    class="text-foreground bg-background relative flex min-h-svh scroll-smooth flex-col overflow-x-hidden pt-20 antialiased"
+    class:list={[
+      "text-foreground bg-background relative flex min-h-svh scroll-smooth flex-col antialiased",
+      publicSite ? "rcd-public" : "overflow-x-hidden pt-20",
+    ]}
   >
     <a
       href="#main-content"
@@ -189,13 +203,15 @@ const { nav } = getContent(lang);
       {nav.skipToContent}
     </a>
 
-    <Navbar lang={lang} />
+    {publicSite
+      ? <PublicHeader lang={lang} currentPath={Astro.url.pathname} client:load />
+      : <Navbar lang={lang} />}
 
-    <main id="main-content" class="grow">
+    <main id="main-content" class="grow" tabindex={publicSite ? -1 : undefined}>
       <slot />
     </main>
 
-    <Footer lang={lang} />
+    {publicSite ? <PublicFooter lang={lang} /> : <Footer lang={lang} />}
   </body>
 </html>
 

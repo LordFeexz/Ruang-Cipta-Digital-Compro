@@ -1,0 +1,28 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import { LANGS, LANG, getLocalizedPath } from "../../lib/i18n";
+import SectionLabel from "../../lib/components/public/SectionLabel.astro";
+import CopyEmail from "../../lib/components/public/CopyEmail.svelte";
+import { contactEmail } from "../../lib/components/public/content";
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+export const prerender = true;
+const { lang } = Astro.params as { lang: LANG };
+---
+<PublicLayout lang={lang} title="Kontak | Ruang Cipta Digital" description="Hubungi Ruang Cipta Digital untuk pertanyaan produk atau diskusi pengembangan perangkat lunak.">
+  <section class="mx-auto max-w-[780px] px-6 pt-10 pb-16 sm:pt-16 sm:pb-24">
+    <SectionLabel text="04 / KONTAK" />
+    <h1 class="text-[38px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">Mulai percakapan.</h1>
+    <p class="mt-6 text-lg leading-relaxed text-secondary-foreground">Selalu ada ruang untuk ide baru.</p>
+    <p class="mt-6 max-w-xl text-base leading-loose text-muted-foreground">Untuk kolaborasi pengembangan, diskusi tentang aplikasi dan packages kami, atau sekadar bertukar ide.</p>
+    <a href={"mailto:" + contactEmail} class="mt-8 flex min-h-16 max-w-xl items-center justify-between gap-4 rounded-sm border-b border-border py-4 text-2xl text-brand-quiet [overflow-wrap:anywhere] sm:text-3xl">{contactEmail}<span aria-hidden="true">↗</span></a>
+    <CopyEmail client:load />
+    <nav aria-label="Jelajahi produk" class="mt-12 grid gap-3 border-t border-border pt-6 sm:grid-cols-2">
+      <a href={getLocalizedPath(lang, "career-mate")} class="flex min-h-11 items-center justify-between gap-3 rounded text-sm text-brand-quiet">Kenali Role Mate <span aria-hidden="true">→</span></a>
+      <a href={getLocalizedPath(lang, "digitool")} class="flex min-h-11 items-center justify-between gap-3 rounded text-sm text-brand-quiet">Kenali Digitool <span aria-hidden="true">→</span></a>
+      <a href="https://role-mate.com/id" target="_blank" rel="noopener noreferrer" class="flex min-h-11 items-center justify-between gap-3 rounded text-sm text-muted-foreground">role-mate.com/id <span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></a>
+      <a href="https://dgtool.my.id" target="_blank" rel="noopener noreferrer" class="flex min-h-11 items-center justify-between gap-3 rounded text-sm text-muted-foreground">dgtool.my.id <span aria-hidden="true">↗</span><span class="sr-only"> (tab baru)</span></a>
+    </nav>
+  </section>
+</PublicLayout>

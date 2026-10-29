@@ -1,0 +1,29 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import { LANGS, LANG, getLocalizedPath } from "../../lib/i18n";
+import SectionLabel from "../../lib/components/public/SectionLabel.astro";
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+export const prerender = true;
+const { lang } = Astro.params as { lang: LANG };
+const focus = [
+  { title: "Aplikasi", description: "Produk digital untuk membantu kebutuhan pengguna." },
+  { title: "Packages", description: "Komponen dan alat yang dapat digunakan kembali." },
+  { title: "Kolaborasi", description: "Ruang untuk membahas ide dan pengembangan solusi digital." },
+];
+---
+<PublicLayout lang={lang} title="Tentang Kami | Ruang Cipta Digital" description="Ruang Cipta Digital adalah software house yang mengembangkan aplikasi, packages, dan solusi digital.">
+  <section class="mx-auto max-w-[780px] px-6 pt-10 pb-16 sm:pt-16 sm:pb-24">
+    <SectionLabel text="TENTANG KAMI / RUANG CIPTA DIGITAL" />
+    <h1 class="text-[38px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">Ide bertemu teknologi.</h1>
+    <p class="mt-6 text-lg leading-relaxed text-secondary-foreground">Software house yang membangun aplikasi, packages, dan solusi digital.</p>
+    <div class="mt-8 max-w-2xl space-y-5 text-base leading-loose text-muted-foreground">
+      <p>Ruang Cipta Digital adalah ruang untuk mengembangkan ide menjadi karya yang dapat digunakan. Kami membangun aplikasi dan packages, serta membuka ruang untuk kolaborasi pengembangan perangkat lunak.</p>
+      <p>Melalui website ini, kami memperkenalkan karya yang telah kami kembangkan—apa kegunaannya, teknologi di baliknya, dan bagaimana Anda dapat menjelajahinya.</p>
+    </div>
+    <div class="mt-10 grid gap-x-6 sm:grid-cols-3">{focus.map((item, index) => <div class="border-t border-border py-6"><span class="font-mono text-xs text-brand-quiet">{"0" + (index + 1)}</span><h2 class="mt-3 text-lg font-medium">{item.title}</h2><p class="mt-2 text-base leading-relaxed text-muted-foreground">{item.description}</p></div>)}</div>
+    <a href={getLocalizedPath(lang, "products")} class="mt-5 inline-flex min-h-11 items-center gap-8 rounded text-sm text-brand-quiet underline decoration-border underline-offset-8">Jelajahi karya kami <span aria-hidden="true">↗</span></a>
+    <div class="mt-12 flex flex-col justify-between gap-3 border-t border-border pt-6 sm:flex-row"><span class="text-[10px] tracking-widest text-muted-foreground">RUANG CIPTA DIGITAL</span><p class="text-sm text-secondary-foreground">Aplikasi. Packages. Solusi digital.</p></div>
+  </section>
+</PublicLayout>

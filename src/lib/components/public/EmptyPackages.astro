@@ -1,0 +1,16 @@
+---
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
+import { getLocalizedPath } from "../../i18n";
+interface Props { lang: string; }
+const { lang } = Astro.props;
+---
+<Card class="mt-8 gap-0 rounded-xl border border-border bg-card p-6 shadow-none ring-0 sm:p-8">
+  <span class="mb-5 font-mono text-2xl text-brand-quiet" aria-hidden="true">&gt;_</span>
+  <h2 class="text-lg font-medium">Belum ada package yang ditampilkan.</h2>
+  <p class="mt-3 max-w-lg text-base leading-relaxed text-muted-foreground">Jelajahi aplikasi yang sudah kami bangun, atau hubungi kami untuk berdiskusi tentang kebutuhan pengembangan Anda.</p>
+  <div class="mt-6 flex flex-wrap gap-3">
+    <Button href={getLocalizedPath(lang, "products")} variant="outline" class="min-h-11 px-4">Jelajahi aplikasi</Button>
+    <Button href={getLocalizedPath(lang, "contact")} variant="ghost" class="min-h-11 px-4">Hubungi kami <span class="ml-2" aria-hidden="true">↗</span></Button>
+  </div>
+</Card>

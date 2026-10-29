@@ -1,0 +1,23 @@
+---
+import PublicLayout from "../../layouts/PublicLayout.astro";
+import { LANGS, LANG } from "../../lib/i18n";
+import SectionLabel from "../../lib/components/public/SectionLabel.astro";
+import EmptyPackages from "../../lib/components/public/EmptyPackages.astro";
+import PackageEntry from "../../lib/components/public/PackageEntry.svelte";
+import { publicPackages } from "../../lib/components/public/content";
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }));
+}
+export const prerender = true;
+const { lang } = Astro.params as { lang: LANG };
+---
+<PublicLayout lang={lang} title="Packages | Ruang Cipta Digital" description="Packages dan developer tools dari Ruang Cipta Digital.">
+  <section class="mx-auto max-w-[780px] px-6 pt-10 pb-16 sm:pt-16 sm:pb-24">
+    <SectionLabel text="PACKAGES / DEVELOPER TOOLS" />
+    <h1 class="text-[38px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">Dibuat untuk digunakan kembali.</h1>
+    <p class="mt-6 text-lg leading-relaxed text-muted-foreground">Packages dan tools yang kami kembangkan.</p>
+    {publicPackages.length
+      ? <div class="mt-8 space-y-5">{publicPackages.map((item) => <PackageEntry item={item} client:load />)}</div>
+      : <EmptyPackages lang={lang} />}
+  </section>
+</PublicLayout>

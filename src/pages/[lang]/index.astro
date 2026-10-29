@@ -1,32 +1,28 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import PublicLayout from "../../layouts/PublicLayout.astro";
 import { getContent } from "../../content";
-import { LANGS, LANG } from "../../lib/i18n";
-
-import HeroSection from "../../lib/components/common/HeroSection.astro";
-import ProblemSection from "../../lib/components/common/ProblemSection.astro";
-import PitchSection from "../../lib/components/common/PitchSection.astro";
-import VisionSection from "../../lib/components/common/VisionSection.astro";
-import MissionCards from "../../lib/components/common/MissionCards.astro";
-import ProductCard from "../../lib/components/common/ProductCard.astro";
-import MetricsRow from "../../lib/components/common/MetricsRow.svelte";
-import ProductDemo from "../../lib/components/common/ProductDemo.astro";
-import CTASection from "../../lib/components/common/CTASection.astro";
-import SectionWrapper from "../../lib/components/common/SectionWrapper.astro";
-import SectionHeading from "../../lib/components/common/SectionHeading.astro";
+import { LANGS, LANG, getLocalizedPath } from "../../lib/i18n";
+import { Button } from "../../lib/components/ui/button";
+import FeaturedProduct from "../../lib/components/public/FeaturedProduct.svelte";
+import SectionLabel from "../../lib/components/public/SectionLabel.astro";
+import CommandLauncher from "../../lib/components/public/CommandLauncher.svelte";
+import { getPublicProducts, contactEmail } from "../../lib/components/public/content";
 
 export function getStaticPaths() {
   return LANGS.map((lang) => ({ params: { lang } }));
 }
-
 export const prerender = true;
-
 const { lang } = Astro.params as { lang: LANG };
 const content = getContent(lang);
-const { home, seo, ui } = content;
+const { seo } = content;
+const products = getPublicProducts(content, lang);
+const services = [
+  { title: "Ceritakan kebutuhan", description: "Mulai dari tujuan, pengguna, dan masalah yang ingin diselesaikan." },
+  { title: "Bahas pendekatan", description: "Diskusikan prioritas dan arah solusi yang memungkinkan." },
+  { title: "Tentukan ruang lingkup", description: "Sepakati kebutuhan pengembangan sebelum melangkah lebih jauh." },
+];
 ---
-
-<BaseLayout 
+<PublicLayout
   lang={lang}
   title={seo.home.title}
   description={seo.home.description}
@@ -37,35 +33,60 @@ const { home, seo, ui } = content;
     type: "website"
   }}
 >
-  <HeroSection content={home.hero} />
-
-  <ProblemSection content={home.problem} eyebrow={ui.theChallenge} />
-
-  <PitchSection content={home.intro} />
-
-  <VisionSection vision={home.vision} eyebrow={ui.ourVision} />
-
-  <MissionCards missions={home.mission} eyebrow={ui.ourMission} />
-
-  <ProductCard
-    products={home.products}
-    title={ui.whatWeBuild}
-    badgeLabel={ui.ecosystemProduct}
-  />
-
-  <PitchSection content={home.whyWeExist} align="left" />
-
-  <SectionWrapper class="bg-secondary border-border border-y">
-    <SectionHeading
-      title={ui.tractionAndScale}
-      lede={ui.tractionLede}
-      eyebrow={ui.traction}
-      class="mb-14"
-    />
-    <MetricsRow metrics={home.impact} variant="plain" client:visible />
-  </SectionWrapper>
-
-  <ProductDemo demo={home.showcase} eyebrow={ui.productShowcase} />
-
-  <CTASection content={home.contact} eyebrow={ui.getStarted} />
-</BaseLayout>
+  <section class="mx-auto max-w-[780px] px-6 pt-16 pb-20 sm:pt-28 sm:pb-32">
+    <p class="mb-6 flex items-center gap-2.5 text-[9px] font-medium tracking-[0.18em] text-muted-foreground uppercase"><span class="size-1.5 shrink-0 rounded-full bg-brand-bright" aria-hidden="true"></span>Software house · Built in Indonesia</p>
+    <h1 class="text-[38px] leading-[1.15] font-semibold tracking-[-0.04em] sm:text-[48px]">Ruang Cipta Digital<span class="text-brand-bright">.</span></h1>
+    <p class="mt-7 max-w-xl text-lg leading-relaxed">Kami mengembangkan <a href={getLocalizedPath(lang, "products")} class="rounded underline decoration-muted-foreground underline-offset-4 hover:text-brand-quiet">aplikasi</a>, <a href={getLocalizedPath(lang, "packages")} class="rounded underline decoration-muted-foreground underline-offset-4 hover:text-brand-quiet">packages</a>, dan solusi digital.</p>
+    <p class="mt-2 text-base leading-relaxed text-muted-foreground">Dari ide menjadi karya. Jelajahi apa yang kami bangun.</p>
+    <div class="mt-7 flex flex-wrap gap-x-6 gap-y-2">
+      <a href={getLocalizedPath(lang, "products")} class="inline-flex min-h-11 items-center gap-3 rounded text-sm text-brand-quiet">Jelajahi karya <span aria-hidden="true">↗</span></a>
+      <a href={getLocalizedPath(lang, "contact")} class="inline-flex min-h-11 items-center gap-3 rounded text-sm text-brand-quiet">Diskusikan proyek <span aria-hidden="true">↗</span></a>
+    </div>
+    <CommandLauncher client:load />
+  </section>
+  <div class="mx-auto max-w-[1000px] px-6">
+    <section id="products" class="scroll-mt-6 border-t border-border py-12 sm:py-16">
+      <div class="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
+        <div>
+          <SectionLabel text="01 / PRODUK KAMI" />
+          <h2 class="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">Dua produk.<br />Banyak kemungkinan.</h2>
+        </div>
+        <a href={getLocalizedPath(lang, "products")} class="inline-flex min-h-11 items-center gap-3 self-start rounded text-sm text-brand-quiet">Semua karya <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="mt-6 mb-7 max-w-xl text-base leading-relaxed text-muted-foreground">Kenali produk yang kami kembangkan dan temukan yang sesuai dengan kebutuhan Anda.</p>
+      <div class="grid gap-4 sm:grid-cols-2 sm:gap-5">{products.map((product) => <FeaturedProduct product={product} />)}</div>
+      <a href={getLocalizedPath(lang, "packages")} class="mt-4 flex items-center gap-4 rounded-lg border border-border p-5 transition-colors hover:border-brand-ring hover:bg-card">
+        <span class="shrink-0 font-mono text-2xl text-brand-quiet" aria-hidden="true">&gt;_</span>
+        <span class="min-w-0 flex-1"><span class="block text-sm font-medium">Packages & developer tools</span><span class="mt-1.5 block text-sm leading-relaxed text-muted-foreground">Jelajahi komponen yang kami kembangkan.</span></span>
+        <span class="text-brand-quiet" aria-hidden="true">↗</span>
+      </a>
+    </section>
+    <section id="home-services" class="scroll-mt-6 border-t border-border py-12 sm:py-16">
+      <SectionLabel text="02 / PENGEMBANGAN SESUAI KEBUTUHAN" />
+      <h2 class="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">Setiap kebutuhan punya<br />titik mulainya sendiri.</h2>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground">Punya ide baru atau sistem yang ingin dikembangkan? Ceritakan kebutuhan Anda. Kami membuka diskusi untuk menentukan solusi dan ruang lingkup yang sesuai.</p>
+      <ol class="mt-8 grid gap-x-6 sm:grid-cols-3">
+        {services.map((service, index) => <li class="border-t border-border py-6"><span class="font-mono text-xs text-brand-quiet">{"0" + (index + 1)}</span><h3 class="mt-3 text-lg font-medium">{service.title}</h3><p class="mt-2 text-base leading-relaxed text-muted-foreground">{service.description}</p></li>)}
+      </ol>
+      <Button href={"mailto:" + contactEmail} class="mt-5 min-h-11 gap-4 px-5">Diskusikan proyek <span aria-hidden="true">↗</span></Button>
+    </section>
+    <section id="about" class="grid scroll-mt-6 gap-5 border-t border-border py-12 sm:grid-cols-2 sm:gap-12 sm:py-16">
+      <div><SectionLabel text="03 / TENTANG KAMI" /><h2 class="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">Ruang untuk<br />mewujudkan ide.</h2></div>
+      <div class="space-y-5 text-base leading-relaxed text-muted-foreground">
+        <p>Ruang Cipta Digital adalah software house yang mengembangkan aplikasi, packages, dan solusi digital.</p>
+        <p>Di sini, kami memperkenalkan karya yang telah dibangun sekaligus membuka ruang untuk kolaborasi pengembangan.</p>
+        <a href={getLocalizedPath(lang, "about")} class="inline-flex min-h-11 items-center gap-7 rounded text-sm text-brand-quiet underline decoration-border underline-offset-8">Kenali RCD <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+    <section id="contact" class="mb-8 scroll-mt-6 rounded-xl border border-brand-ring/60 bg-linear-to-br from-card to-brand-soft/50 p-6 sm:mb-14 sm:p-10">
+      <SectionLabel text="04 / MARI TERHUBUNG" />
+      <h2 class="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl">Mulai dari sebuah<br />percakapan.</h2>
+      <p class="mt-5 text-base leading-relaxed text-muted-foreground">Untuk pertanyaan produk atau diskusi kebutuhan proyek.</p>
+      <a href={"mailto:" + contactEmail} class="my-6 flex min-h-11 max-w-xl items-center justify-between gap-4 rounded text-2xl text-brand-quiet [overflow-wrap:anywhere] sm:text-3xl">{contactEmail}<span aria-hidden="true">↗</span></a>
+      <div class="flex flex-col gap-x-8 border-t border-border pt-3 sm:flex-row">
+        <a href={getLocalizedPath(lang, "products")} class="inline-flex min-h-11 items-center gap-2 rounded text-sm text-secondary-foreground">Saya ingin menjelajahi produk <span aria-hidden="true">→</span></a>
+        <a href={"mailto:" + contactEmail} class="inline-flex min-h-11 items-center gap-2 rounded text-sm text-secondary-foreground">Saya ingin membahas proyek <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </div>
+</PublicLayout>
